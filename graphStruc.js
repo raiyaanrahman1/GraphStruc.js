@@ -57,9 +57,18 @@ class GraphStruc {
                     this.vertices[i].updatePosition(position);
                 }
             }
-
+            let curvedEdges = [];
             for(let edge of this.edges){
-                this.updateEdge(edge);
+                if(edge.straightEdge){
+                    this.updateEdge(edge);
+                }
+                else {
+                    curvedEdges.push(edge);
+                }
+            }
+
+            for(let edge of curvedEdges){
+                this.updateCurvedEdge(edge);
             }
             
         })
@@ -180,10 +189,16 @@ class GraphStruc {
         this.edges.push(edge);
         let intersection = this.detectIntersectionLine(edge);
         if(!intersection[0]){
-            this.edgesContainer.append(this.getEdgeElem(edge));
+            let line = this.getEdgeElem(edge);
+            this.edgesContainer.append(line);
+            edge.elem = line;
+            edge.straightEdge = true;
         }
         else {
-            this.edgesContainer.append(this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]));
+            let curve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
+            this.edgesContainer.append(curve);
+            edge.elem = curve;
+            edge.straightEdge = false;
         }
         
     }
@@ -203,7 +218,6 @@ class GraphStruc {
             line.setAttributeNS(null, "x2", x2);
             line.setAttributeNS(null, "y2", y2);
             line.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
-            edge.elem = line;
             return line;
         }
     }
@@ -279,6 +293,15 @@ class GraphStruc {
             return curve;
         }
         
+    }
+
+    updateCurvedEdge(edge){
+        
+        let intersection = this.detectIntersectionLine(edge);
+        let newCurve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
+        let str = newCurve.getAttribute("d");
+        edge.elem.setAttribute("d", str);
+
     }
 
     // private helper

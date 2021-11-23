@@ -28,5 +28,6 @@ for(let i = 0; i < 9; i++){
 graph.addEdge(0, 2);
 graph.addEdge(0, 6);
 graph.addEdge(0, 8);
-// graph.addEdge(6, 2);
+graph.addEdge(7, 4);
+graph.addEdge(4, 5);
 // graph.addEdge(10000, 10001);
