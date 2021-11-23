@@ -6,7 +6,7 @@ let graphDiv = document.getElementById("graph");
 // This helps the library convert units, and makes it more responsive
 // The graphDiv element should be a container for only the GraphStruc, nothing else, since the GraphStruct will take up 100%
 // of the element's space 
-let graph = new GraphStruc(graphDiv, 3);
+let graph = new GraphStruc(graphDiv, false, 3);
 for(let i = 0; i < 9; i++){
     graph.createVertex(i, "50px");
 }
@@ -17,9 +17,16 @@ for(let i = 0; i < 9; i++){
 // graph.createVertex(10001, "50px", ["1200px", "300px"]);
 
 // DO:
-graph.createVertex(10000, "50px", ["5%", "15%"]);
-graph.createVertex(10001, "5%", ["95%", "85%"]);
+// graph.createVertex(10000, "50px", ["40%", "40%"]);
+// graph.createVertex(10001, "5%", ["40%", "46%"]);
 
-// Shouldn't specify position in pixels for absolute positioning, since the position is calculated from the top and
-// left of the graph bounding box, if the user resizes the window from the bottom or right, the position won't be 
-// adjusted. So always specify the position
+// When explicitly specifying the position, you shouldn't specify the position in pixels, since the position is 
+// calculated from the top and left of the graph bounding box,
+// if the user resizes the window from the bottom or right, the position won't be adjusted.
+// So always specify the position in percent.
+
+graph.addEdge(0, 2);
+graph.addEdge(0, 6);
+graph.addEdge(0, 8);
+// graph.addEdge(6, 2);
+// graph.addEdge(10000, 10001);
