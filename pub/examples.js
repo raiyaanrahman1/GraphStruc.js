@@ -8,7 +8,7 @@ let graphDiv = document.getElementById("graph");
 // of the element's space 
 let graph = new GraphStruc(graphDiv, false, 3);
 for(let i = 0; i < 9; i++){
-    graph.createVertex(i, "50px");
+    graph.createVertex(i, "50px", i, "rgb(37, 193, 204)");
 }
 
 

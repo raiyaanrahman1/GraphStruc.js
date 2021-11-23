@@ -1,5 +1,39 @@
 const LENGTH_REGEX = /^[0-9]+((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(ex)|(vw)|(vh))(?!.)/;
 const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
+
+// helper method: not to be called by client
+function convertToPixel(xMag, xUnit, direction) {
+    
+    switch(xUnit){
+        // absolute units
+        case "px":
+            return xMag;
+        case "in":
+            return (xMag*96);
+        case "cm":
+            return (xMag*96/2.54);
+        case "mm":
+            return (xMag*96/2.54/10);
+        case "pt":
+            return (xMag*96/72);
+        case "pc":
+            return (xMag*16);
+        // relative units
+        case "%":
+            return (xMag / 100) * direction;
+        case "rem":
+            return (xMag*parseFloat(getComputedStyle(document.documentElement).fontSize));
+        case "em":
+            return (xMag*parseFloat(getComputedStyle(this.parentElem).fontSize));
+        case "vw":
+            return (xMag / 100 * window.innerWidth);
+        case "vh":
+            return (xMag / 100 * window.innerHeight);
+    }
+    return null;
+
+}
+
 class GraphStruc {
     constructor(parentElem, directed=false, maxNodesPerRow = Infinity){
         this.parentElem = parentElem;
@@ -51,7 +85,7 @@ class GraphStruc {
                     let [yMag, yUnit] = yPos.split(UNIT_REGEX);
                     xMag = parseFloat(xMag);
                     yMag = parseFloat(yMag);
-                    xMag = this.convertToPixel(xMag, xUnit);
+                    xMag = this.convertToPixel(xMag, xUnit, this.width);
                     yMag = this.convertToPixel(yMag, yUnit, this.height);
                     let position = [(xMag - diamMag / 2) + "px", (yMag - diamMag / 2) + "px"];
                     this.vertices[i].updatePosition(position);
@@ -75,40 +109,7 @@ class GraphStruc {
     
     }
 
-    // helper method: not to be called by client
-    convertToPixel(xMag, xUnit, direction = this.width) {
-        
-        switch(xUnit){
-            // absolute units
-            case "px":
-                return xMag;
-            case "in":
-                return (xMag*96);
-            case "cm":
-                return (xMag*96/2.54);
-            case "mm":
-                return (xMag*96/2.54/10);
-            case "pt":
-                return (xMag*96/72);
-            case "pc":
-                return (xMag*16);
-            // relative units
-            case "%":
-                return (xMag / 100) * direction;
-            case "rem":
-                return (xMag*parseFloat(getComputedStyle(document.documentElement).fontSize));
-            case "em":
-                return (xMag*parseFloat(getComputedStyle(this.parentElem).fontSize));
-            case "vw":
-                return (xMag / 100 * window.innerWidth);
-            case "vh":
-                return (xMag / 100 * window.innerHeight);
-        }
-        return null;
-
-    }
-
-    createVertex(key, diameter, position = undefined) {
+    createVertex(key, diameter, innerHTML = "", backgroundColor = "white", position = undefined) {
         if(key === undefined){
             throw new TypeError("Undefined Key");
         }
@@ -125,7 +126,7 @@ class GraphStruc {
         let [diamMag, diamUnit] = diameter.split(UNIT_REGEX);
         diamMag = parseFloat(diamMag);
         if(diamUnit !== "px"){
-            diamMag = this.convertToPixel(diamMag, diamUnit);
+            diamMag = this.convertToPixel(diamMag, diamUnit, this.width);
             
         }
         let isDefault = position === undefined;
@@ -140,12 +141,12 @@ class GraphStruc {
             let [yMag, yUnit] = yPos.split(UNIT_REGEX);
             xMag = parseFloat(xMag);
             yMag = parseFloat(yMag);
-            xMag = this.convertToPixel(xMag, xUnit);
+            xMag = this.convertToPixel(xMag, xUnit, this.width);
             yMag = this.convertToPixel(yMag, yUnit, this.height);
             position = [(xMag - diamMag / 2) + "px", (yMag - diamMag / 2) + "px"]
         }
         
-        let vert = new Vertex(key, this.vertContainer, diamMag + "px", position, positionOriginal, isDefault);
+        let vert = new Vertex(key, this.vertContainer, diamMag + "px", position, positionOriginal, isDefault, innerHTML, backgroundColor);
         this.vertices.push(vert);
         
         let numRows = this.maxNodesPerRow === Infinity ? 1 : Math.ceil(this.numDefaultVert / this.maxNodesPerRow);
@@ -372,15 +373,25 @@ class GraphStruc {
 
 class Vertex {
     
-    constructor(key, graphElem, diameter, position, positionOriginal, isDefault){
+    constructor(key, graphElem, diameter, position, positionOriginal, isDefault, innerHTML, backgroundColor){
         this.vertexElem = document.createElement("div");
         this.key = key;
         this.position = position;
         this.diameter = diameter;
         this.isDefault = isDefault;
         this.positionOriginal = positionOriginal;
-        this.vertexElem.setAttribute("style", `width: ${diameter}; height: ${diameter}; border-radius: 50%; position: absolute; left: ${this.position[0]}; top: ${this.position[1]}; border: 1px solid; background-color: white`)
+        this.vertexElem.setAttribute("style", `width: ${diameter}; height: ${diameter}; border-radius: 50%; position: absolute; left: ${this.position[0]}; top: ${this.position[1]}; border: 1px solid; background-color: ${backgroundColor}`);
+        this.content = document.createElement("div");
+        let [diamMag, diamUnits] = diameter.split(UNIT_REGEX);
+        diamMag = parseFloat(diamMag);
+        this.content.style = `position: absolute; top: ${diamMag / 2 + diamUnits}; left: ${diamMag / 2 + diamUnits}`;
+        this.content.innerHTML = innerHTML;
+        this.vertexElem.append(this.content);
         graphElem.append(this.vertexElem);
+        let [contWidth, contHeight] = [parseFloat(window.getComputedStyle(this.content).width.split(UNIT_REGEX)), parseFloat(window.getComputedStyle(this.content).height.split(UNIT_REGEX))];
+        let graphWidth = window.getComputedStyle(graphElem).width;
+        this.content.style.top = convertToPixel(diamMag/2, diamUnits, graphWidth) - contHeight/2 + "px";
+        this.content.style.left = convertToPixel(diamMag/2, diamUnits, graphWidth) - contWidth/2 + "px";
     }
 
     updatePosition(position) {
