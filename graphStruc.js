@@ -75,6 +75,16 @@ class GraphStruc {
             let diamMag = convertToPixel(parseFloat(vert.diameter.split(UNIT_REGEX)[0]), vert.diameter.split(UNIT_REGEX)[1], this.width);
             let newPos = [ev.clientX - this.graphElem.getBoundingClientRect().left - diamMag / 2 + "px", ev.clientY - this.graphElem.getBoundingClientRect().top - diamMag / 2 + "px"];
             vert.updatePosition(newPos);
+            vert.isDefault = false;
+            this.numDefaultVert--;
+            let newPosOriginal = JSON.parse(JSON.stringify(newPos));
+            if(vert.positionOriginal === undefined || vert.positionOriginal[0].split(UNIT_REGEX)[1] === "%"){
+                newPosOriginal[0] = 100 * (parseFloat(newPos[0].split(UNIT_REGEX)[0]) + diamMag / 2) / this.width + "%";
+            }
+            if(vert.positionOriginal === undefined || vert.positionOriginal[1].split(UNIT_REGEX)[1] === "%"){
+                newPosOriginal[1] = 100 * (parseFloat(newPos[1].split(UNIT_REGEX)[0]) + diamMag / 2) / this.height + "%";
+            }
+            vert.positionOriginal = newPosOriginal;
             console.log(newPos);
             
             for(let edge of this.edges){
@@ -132,8 +142,8 @@ class GraphStruc {
                     let [yMag, yUnit] = yPos.split(UNIT_REGEX);
                     xMag = parseFloat(xMag);
                     yMag = parseFloat(yMag);
-                    xMag = this.convertToPixel(xMag, xUnit, this.width);
-                    yMag = this.convertToPixel(yMag, yUnit, this.height);
+                    xMag = convertToPixel(xMag, xUnit, this.width);
+                    yMag = convertToPixel(yMag, yUnit, this.height);
                     let position = [(xMag - diamMag / 2) + "px", (yMag - diamMag / 2) + "px"];
                     this.vertices[i].updatePosition(position);
                 }
@@ -173,7 +183,7 @@ class GraphStruc {
         let [diamMag, diamUnit] = diameter.split(UNIT_REGEX);
         diamMag = parseFloat(diamMag);
         if(diamUnit !== "px"){
-            diamMag = this.convertToPixel(diamMag, diamUnit, this.width);
+            diamMag = convertToPixel(diamMag, diamUnit, this.width);
             
         }
         let isDefault = position === undefined;
@@ -188,8 +198,8 @@ class GraphStruc {
             let [yMag, yUnit] = yPos.split(UNIT_REGEX);
             xMag = parseFloat(xMag);
             yMag = parseFloat(yMag);
-            xMag = this.convertToPixel(xMag, xUnit, this.width);
-            yMag = this.convertToPixel(yMag, yUnit, this.height);
+            xMag = convertToPixel(xMag, xUnit, this.width);
+            yMag = convertToPixel(yMag, yUnit, this.height);
             position = [(xMag - diamMag / 2) + "px", (yMag - diamMag / 2) + "px"]
         }
         
