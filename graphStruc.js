@@ -52,7 +52,7 @@ class GraphStruc {
         this.edges = [];
         this.directed = directed;
         this.numDefaultVert = 0;
-        this.graphElem.style = `width: 100%; height: 100%; border: 1px solid;`
+        this.graphElem.style = `width: 100%; height: 100%;`
         this.width = parseFloat(window.getComputedStyle(parentElem).width.split(UNIT_REGEX)[0]); // in pixels
         this.height = parseFloat(window.getComputedStyle(parentElem).height.split(UNIT_REGEX)[0]); // in pixels
         this.graphElem.style.position = "relative";
@@ -75,8 +75,12 @@ class GraphStruc {
             let diamMag = convertToPixel(parseFloat(vert.diameter.split(UNIT_REGEX)[0]), vert.diameter.split(UNIT_REGEX)[1], this.width);
             let newPos = [ev.clientX - this.graphElem.getBoundingClientRect().left - diamMag / 2 + "px", ev.clientY - this.graphElem.getBoundingClientRect().top - diamMag / 2 + "px"];
             vert.updatePosition(newPos);
-            vert.isDefault = false;
-            this.numDefaultVert--;
+
+            if(vert.isDefault){
+                vert.isDefault = false;
+                this.numDefaultVert--;
+            }
+            
             let newPosOriginal = JSON.parse(JSON.stringify(newPos));
             if(vert.positionOriginal === undefined || vert.positionOriginal[0].split(UNIT_REGEX)[1] === "%"){
                 newPosOriginal[0] = 100 * (parseFloat(newPos[0].split(UNIT_REGEX)[0]) + diamMag / 2) / this.width + "%";

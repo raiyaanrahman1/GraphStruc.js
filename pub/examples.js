@@ -31,3 +31,70 @@ graph.addEdge(0, 8);
 graph.addEdge(7, 4);
 graph.addEdge(4, 5);
 // graph.addEdge(10000, 10001);
+
+let graph2Div = document.getElementById("graph2");
+let graph2 = new GraphStruc(graph2Div, false, 3);
+for(let i = 0; i < 9; i++){
+    graph2.createVertex(i, "50px", i);
+}
+
+let graph3Div = document.getElementById("graph3");
+let graph3 = new GraphStruc(graph3Div, false);
+for(let i = 0; i < 9; i++){
+    graph3.createVertex(i, "50px", i);
+}
+
+let graph4Div = document.getElementById("graph4");
+let graph4 = new GraphStruc(graph4Div, false, 1);
+for(let i = 0; i < 9; i++){
+    graph4.createVertex(i, "50px", i);
+}
+
+let graph5Div = document.getElementById("graph5");
+let graph5 = new GraphStruc(graph5Div, false, 3);
+for(let i = 0; i < 9; i++){
+    graph5.createVertex(i, "50px");
+}
+graph5.createVertex(10000, "50px", "", "green", false, ["10%", "20%"]);
+graph5.createVertex(10001, "10%", "", "green", false, ["40%", "46%"]);
+graph5.createVertex(10002, "3%", "", "green", false, ["85%", "70%"]);
+
+let graph6Div = document.getElementById("graph6");
+let graph6 = new GraphStruc(graph6Div, false, 3);
+for(let i = 0; i < 9; i++){
+    graph6.createVertex(i, "50px");
+}
+graph6.addEdge(0, 8);
+
+let graph7Div = document.getElementById("graph7");
+let graph7 = new GraphStruc(graph7Div, false, 9);
+for(let i = 0; i < 9; i++){
+    graph7.createVertex(i, "50px", "stop " + i, "yellow");
+}
+
+graph7.createVertex(10, "50px", "stop 9", "pink", false, ["45%", "30%"]);
+graph7.createVertex(11, "50px", "stop 10", "lightblue", false, ["55%", "30%"]);
+graph7.createVertex(12, "50px", "stop 11", "pink", false, ["35%", "20%"]);
+graph7.createVertex(13, "50px", "stop 12", "lightblue", false, ["65%", "20%"]);
+graph7.createVertex(14, "50px", "stop 13", "lightgreen", false, ["50%", "65%"]);
+graph7.createVertex(15, "50px", "stop 14", "lightgreen", false, ["50%", "75%"]);
+graph7.createVertex(16, "50px", "stop 15", "lightgreen", false, ["50%", "95%"]);
+
+graph7.addEdge(0, 1);
+graph7.addEdge(1, 2);
+graph7.addEdge(2, 3);
+graph7.addEdge(3, 4);
+graph7.addEdge(4, 5);
+graph7.addEdge(5, 6);
+graph7.addEdge(6, 7);
+graph7.addEdge(7, 8);
+
+graph7.addEdge(12, 10);
+graph7.addEdge(10, 4);
+
+graph7.addEdge(11, 4);
+graph7.addEdge(11, 13);
+
+graph7.addEdge(4, 14);
+graph7.addEdge(14, 15);
+graph7.addEdge(15, 16);
