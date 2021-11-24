@@ -34,6 +34,16 @@ function convertToPixel(xMag, xUnit, direction) {
 
 }
 
+
+// following two functions from https://www.w3schools.com/tags/att_global_draggable.asp
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+  
+function drag(ev) {
+    ev.dataTransfer.setData("Text", ev.target.id);
+}
+
 class GraphStruc {
     constructor(parentElem, directed=false, maxNodesPerRow = Infinity){
         this.parentElem = parentElem;
@@ -52,6 +62,44 @@ class GraphStruc {
         this.edgesContainer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         this.edgesContainer.setAttributeNS(null, "width", this.width);
         this.edgesContainer.setAttributeNS(null, "height", this.height);
+
+        this.graphElem.ondrop = (ev) => {
+            var data = ev.dataTransfer.getData("Text");
+            let vert;
+            for(let vertex of this.vertices){
+                if(String(vertex.key) === data){
+                    vert = vertex;
+                    break;
+                }
+            }
+            let diamMag = convertToPixel(parseFloat(vert.diameter.split(UNIT_REGEX)[0]), vert.diameter.split(UNIT_REGEX)[1], this.width);
+            // ev.target.appendChild(document.getElementById(data));
+            let newPos = [ev.clientX - this.graphElem.getBoundingClientRect().left - diamMag / 2 + "px", ev.clientY - this.graphElem.getBoundingClientRect().top - diamMag / 2 + "px"];
+            vert.updatePosition(newPos);
+            console.log(newPos);
+            
+            for(let edge of this.edges){
+                if(edge.v1.key === vert.key || edge.v2.key === vert.key){
+                    edge.elem.remove();
+                    let intersection = this.detectIntersectionLine(edge);
+                    if(!intersection[0]){
+                        let line = this.getEdgeElem(edge);
+                        this.edgesContainer.append(line);
+                        edge.elem = line;
+                        edge.straightEdge = true;
+                    }
+                    else {
+                        let curve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
+                        this.edgesContainer.append(curve);
+                        edge.elem = curve;
+                        edge.straightEdge = false;
+                    }
+                }
+            }
+
+            
+        };
+        this.graphElem.ondragover = allowDrop;
         
         this.graphElem.append(this.edgesContainer);
         this.graphElem.append(this.vertContainer);
@@ -109,7 +157,7 @@ class GraphStruc {
     
     }
 
-    createVertex(key, diameter, innerHTML = "", backgroundColor = "white", position = undefined) {
+    createVertex(key, diameter, innerHTML = "", backgroundColor = "white", draggable=false, position = undefined) {
         if(key === undefined){
             throw new TypeError("Undefined Key");
         }
@@ -146,7 +194,7 @@ class GraphStruc {
             position = [(xMag - diamMag / 2) + "px", (yMag - diamMag / 2) + "px"]
         }
         
-        let vert = new Vertex(key, this.vertContainer, diamMag + "px", position, positionOriginal, isDefault, innerHTML, backgroundColor);
+        let vert = new Vertex(key, this.vertContainer, diamMag + "px", position, positionOriginal, isDefault, innerHTML, backgroundColor, draggable);
         this.vertices.push(vert);
         
         let numRows = this.maxNodesPerRow === Infinity ? 1 : Math.ceil(this.numDefaultVert / this.maxNodesPerRow);
@@ -373,13 +421,18 @@ class GraphStruc {
 
 class Vertex {
     
-    constructor(key, graphElem, diameter, position, positionOriginal, isDefault, innerHTML, backgroundColor){
+    constructor(key, graphElem, diameter, position, positionOriginal, isDefault, innerHTML, backgroundColor, draggable){
         this.vertexElem = document.createElement("div");
         this.key = key;
         this.position = position;
         this.diameter = diameter;
         this.isDefault = isDefault;
         this.positionOriginal = positionOriginal;
+        this.vertexElem.draggable = draggable;
+        this.vertexElem.id = key;
+        if(draggable){
+            this.vertexElem.ondragstart = drag;
+        }
         this.vertexElem.setAttribute("style", `width: ${diameter}; height: ${diameter}; border-radius: 50%; position: absolute; left: ${this.position[0]}; top: ${this.position[1]}; border: 1px solid; background-color: ${backgroundColor}`);
         this.content = document.createElement("div");
         let [diamMag, diamUnits] = diameter.split(UNIT_REGEX);
