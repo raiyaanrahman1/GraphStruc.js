@@ -37,6 +37,7 @@ let graph2 = new GraphStruc(graph2Div, false, 3);
 for(let i = 0; i < 9; i++){
     graph2.createVertex(i, "50px", i);
 }
+graph2.animatePath(0, 1);
 
 let graph3Div = document.getElementById("graph3");
 let graph3 = new GraphStruc(graph3Div, false);

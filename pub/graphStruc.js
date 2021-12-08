@@ -248,7 +248,7 @@ class GraphStruc {
             throw new TypeError(`Could not find one of the keys for the edge (${key1}, ${key2})`);
         }
         // let edge = {v1: v1, v2: v2}
-        let edge = new Edge(v1, v2);
+        let edge = new Edge(v1, v2, this.directed);
         this.edges.push(edge);
         let intersection = this.detectIntersectionLine(edge);
         if(!intersection[0]){
@@ -450,6 +450,24 @@ class GraphStruc {
         }
 
 
+        // following 2 functions from stackoverflow: https://stackoverflow.com/questions/26148164/javascript-blinking-with-settimeouts?lq=1
+        // with slight modifications
+        function startBlinking() {
+            setInterval(function () { 
+              blink();
+            }, 2000);
+          }
+          function blink() {
+            // note no timeout for the hiding part
+            v1.vertexElem.style.backgroundColor = "white";
+            setTimeout(function () {
+              v1.vertexElem.style.backgroundColor = "yellow";
+            }, 1000);
+          }
+          
+        startBlinking();
+
+        
         
     }
 
@@ -469,6 +487,8 @@ class Vertex {
         this.positionOriginal = positionOriginal;
         this.vertexElem.draggable = draggable;
         this.vertexElem.id = key;
+        this.highlighted = false;
+        this.adjList = [];
         if(draggable){
             this.vertexElem.ondragstart = drag;
         }
@@ -495,10 +515,17 @@ class Vertex {
 }
 
 class Edge {
-    constructor(v1, v2, straightEdge=false, elem=undefined){
+    constructor(v1, v2, directed, straightEdge=false, elem=undefined){
         this.v1 = v1;
         this.v2 = v2;
         this.straightEdge = straightEdge;
         this.elem = elem;
+        this.directed = directed;
+
+        this.v1.adjList.push(v2);
+        if(!this.directed){
+            this.v2.adjList.push(v1);
+        }
+
     }
 }
