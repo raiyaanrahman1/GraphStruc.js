@@ -247,7 +247,8 @@ class GraphStruc {
         if(!(v1found && v2found)){
             throw new TypeError(`Could not find one of the keys for the edge (${key1}, ${key2})`);
         }
-        let edge = {v1: v1, v2: v2}
+        // let edge = {v1: v1, v2: v2}
+        let edge = new Edge(v1, v2);
         this.edges.push(edge);
         let intersection = this.detectIntersectionLine(edge);
         if(!intersection[0]){
@@ -427,6 +428,31 @@ class GraphStruc {
         return [false];
     }
 
+    animatePath(key1, key2) {
+        let v1, v2;
+        let foundv1 = false, foundv2 = false;
+        for(let v of this.vertices){
+            if(v.key === key1){
+                v1 = v;
+                foundv1 = true;
+                if(foundv2) break;
+            }
+            if(v.key === key2){
+                v2 = v;
+                foundv2 = true;
+                if(foundv1) break;
+            }
+            
+        }
+
+        if(!foundv1 && !foundv2){
+            throw TypeError("Couldn't find vertices with specified keys", key1, key2);
+        }
+
+
+        
+    }
+
 
 }
 
@@ -466,4 +492,13 @@ class Vertex {
         this.vertexElem.style.top = this.position[1];
     }
 
+}
+
+class Edge {
+    constructor(v1, v2, straightEdge=false, elem=undefined){
+        this.v1 = v1;
+        this.v2 = v2;
+        this.straightEdge = straightEdge;
+        this.elem = elem;
+    }
 }
