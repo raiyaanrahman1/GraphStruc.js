@@ -41,13 +41,13 @@ for(let i = 0; i < 9; i++){
 let graph3Div = document.getElementById("graph3");
 let graph3 = new GraphStruc(graph3Div, false);
 for(let i = 0; i < 9; i++){
-    graph3.createVertex(i, "50px", i);
+    graph3.createVertex(i, "50px", i, "", true);
 }
 
 let graph4Div = document.getElementById("graph4");
 let graph4 = new GraphStruc(graph4Div, false, 1);
 for(let i = 0; i < 9; i++){
-    graph4.createVertex(i, "50px", i);
+    graph4.createVertex(i, "50px", i, "", true);
 }
 
 let graph5Div = document.getElementById("graph5");
