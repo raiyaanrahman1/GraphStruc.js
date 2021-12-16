@@ -11,7 +11,6 @@ for(let i = 0; i < 9; i++){
     graph.createVertex(i, "50px", i, "rgb(37, 193, 204)", true);
 }
 
-
 // DON'T DO:
 // graph.createVertex(10000, "50px", ["50px", "50px"]);
 // graph.createVertex(10001, "50px", ["1200px", "300px"]);
@@ -30,6 +29,8 @@ graph.addEdge(0, 6);
 graph.addEdge(0, 8);
 graph.addEdge(7, 4);
 graph.addEdge(4, 5);
+
+// graph.animatePath(7, 5);
 // graph.addEdge(10000, 10001);
 
 let graph2Div = document.getElementById("graph2");
@@ -37,7 +38,12 @@ let graph2 = new GraphStruc(graph2Div, false, 3);
 for(let i = 0; i < 9; i++){
     graph2.createVertex(i, "50px", i);
 }
-graph2.animatePath(0, 1);
+
+// graph2.addEdge(0, 8);
+graph2.addEdge(0, 1);
+graph2.addEdge(1, 2);
+graph2.addEdge(2, 8);
+graph2.animatePath(0, 8);
 
 let graph3Div = document.getElementById("graph3");
 let graph3 = new GraphStruc(graph3Div, false);

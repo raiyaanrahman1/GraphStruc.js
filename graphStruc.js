@@ -428,7 +428,7 @@ class GraphStruc {
         return [false];
     }
 
-    animatePath(key1, key2) {
+    animatePath(key1, key2, loop=true) {
         let v1, v2;
         let foundv1 = false, foundv2 = false;
         for(let v of this.vertices){
@@ -449,26 +449,76 @@ class GraphStruc {
             throw TypeError("Couldn't find vertices with specified keys", key1, key2);
         }
 
-
-        // following 2 functions from stackoverflow: https://stackoverflow.com/questions/26148164/javascript-blinking-with-settimeouts?lq=1
-        // with slight modifications
-        function startBlinking() {
-            setInterval(function () { 
-              blink();
-            }, 2000);
-          }
-          function blink() {
-            // note no timeout for the hiding part
-            v1.vertexElem.style.backgroundColor = "white";
-            setTimeout(function () {
-              v1.vertexElem.style.backgroundColor = "yellow";
-            }, 1000);
-          }
-          
-        startBlinking();
-
+        let path = this.bfs(v1, v2);
+        path.unshift(v1);
+        this.startBlinking(path, loop);
         
-        
+    }
+
+    // helper. Note path sequence does not include s, but includes t
+    bfs(s, t) {
+        for(let vertex of this.vertices) {
+            vertex.bfsVisited = false;
+            vertex.bfsParent = null; 
+        }
+        let pathSequence = [];
+        let queue = [];
+        s.bfsVisited = true;
+        let found = false;
+        queue.push(s);
+
+        MainLoop:
+        while(queue.length > 0){
+            let u = queue.pop(0);
+            for(let vertex of u.adjList){
+                if(!vertex.bfsVisited){
+                    vertex.bfsVisited = true;
+                    vertex.bfsParent = u;
+                    if(vertex.key === t.key){
+                        found = true;
+                        break MainLoop;
+                    }
+                    else {
+                        queue.push(vertex);
+                    }
+                }
+            }
+        }
+
+        if(!found){
+            throw TypeError("No path from specified vertices");
+        }
+
+        let v = t;
+        while(found && v.bfsParent !== null){
+            pathSequence.unshift(v);
+            v = v.bfsParent;
+        }
+        return pathSequence;
+    }
+
+    // helper
+    startBlinking(pathSequence, loop) {
+        let i = 0;
+        let stop = false;
+        let intervalId = setInterval(function () { 
+            if(i > 0){
+                pathSequence[i-1].vertexElem.style.backgroundColor = "white";
+            }
+            else {
+                pathSequence[pathSequence.length-1].vertexElem.style.backgroundColor = "white";
+                if(stop){
+                    clearInterval(intervalId);
+                    return;
+                }
+            }
+            pathSequence[i].vertexElem.style.backgroundColor = "yellow";
+            i++;
+            if(i >= pathSequence.length){
+                i = 0;
+                if(!loop) stop = true;
+            }
+        }, 1000);
     }
 
 
