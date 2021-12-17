@@ -418,7 +418,12 @@ class GraphStruc {
         let newB = 2*newUpSlope*newUpB - 2*newUpSlope*yIntersect - 2*xIntersect;
         let newC = newUpB**2 + yIntersect**2 - 2*newUpB*yIntersect + xIntersect**2 - dist**2;
 
-        let upX = (-newB + dir*Math.sqrt(newB**2 - 4*newA*newC)) / (2*newA);
+        let dir3 = 1;
+        if((downSlope < -1)) {
+            dir3 = -1;
+        }
+
+        let upX = (-newB + dir3*dir*Math.sqrt(newB**2 - 4*newA*newC)) / (2*newA);
 
         upLine.setAttributeNS(null, "x1", xIntersect);
         upLine.setAttributeNS(null, "y1", yIntersect);
@@ -430,8 +435,13 @@ class GraphStruc {
         newA = newDownSlope**2 + 1;
         newB = 2*newDownSlope*newDownB - 2*newDownSlope*yIntersect - 2*xIntersect;
         newC = newDownB**2 + yIntersect**2 - 2*newDownB*yIntersect + xIntersect**2 - dist**2;
+
+        let dir2 = 1;
+        if((downSlope > 1)) {
+            dir2 = -1;
+        }
         
-        let downX = (-newB + dir*Math.sqrt(newB**2 - 4*newA*newC)) / (2*newA);
+        let downX = (-newB + dir2*dir*Math.sqrt(newB**2 - 4*newA*newC)) / (2*newA);
         let downLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
         downLine.setAttributeNS(null, "x1", xIntersect);
         downLine.setAttributeNS(null, "y1", yIntersect);

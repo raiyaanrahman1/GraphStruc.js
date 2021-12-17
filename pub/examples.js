@@ -30,6 +30,7 @@ graph.addEdge(0, 8);
 graph.addEdge(7, 4);
 graph.addEdge(4, 5);
 graph.addEdge(8, 6);
+graph.addEdge(3, 7);
 
 let stopFunction = graph.animatePath(7, 5);
 setTimeout(()=> {
