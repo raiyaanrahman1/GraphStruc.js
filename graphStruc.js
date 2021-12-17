@@ -260,6 +260,11 @@ class GraphStruc {
             }
             
             edge.elem = line;
+
+            if(this.directed){
+                edge.arrowElems.push(lines[1], lines[2]);
+            }
+
             edge.straightEdge = true;
         }
         else {
@@ -270,6 +275,10 @@ class GraphStruc {
             }
             
             edge.elem = curve;
+
+            if(this.directed){
+                edge.arrowElems.push(curves[1], curves[2]);
+            }
             edge.straightEdge = false;
         }
         
@@ -330,19 +339,28 @@ class GraphStruc {
 
     // private helper
     updateEdge(edge) {
-        let v1 = edge.v1;
-        let v2 = edge.v2;
-        
-        let line = edge.elem;
-        let x1 = parseFloat(v1.position[0].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
-        let y1 = parseFloat(v1.position[1].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
-        let x2 = parseFloat(v2.position[0].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
-        let y2 = parseFloat(v2.position[1].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
-        line.setAttributeNS(null, "x1", x1);
-        line.setAttributeNS(null, "y1", y1);
-        line.setAttributeNS(null, "x2", x2);
-        line.setAttributeNS(null, "y2", y2);
-        line.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
+
+        let lines = this.getEdgeElem(edge);
+        let [x1, x2, y1, y2] = [lines[0].getAttribute("x1"), lines[0].getAttribute("x2"), lines[0].getAttribute("y1"), lines[0].getAttribute("y2")];
+        edge.elem.setAttribute("x1", x1);
+        edge.elem.setAttribute("y1", y1);
+        edge.elem.setAttribute("x2", x2);
+        edge.elem.setAttribute("y2", y2);
+        // edge.elem.setAttribute("style", "stroke:black; stroke-width:1");
+
+        if(this.directed){
+            let line1 = [lines[1].getAttribute("x1"), lines[1].getAttribute("x2"), lines[1].getAttribute("y1"), lines[1].getAttribute("y2")];
+            edge.arrowElems[0].setAttribute("x1", line1[0]);
+            edge.arrowElems[0].setAttribute("x2", line1[1]);
+            edge.arrowElems[0].setAttribute("y1", line1[2]);
+            edge.arrowElems[0].setAttribute("y2", line1[3]);
+
+            let line2 = [lines[2].getAttribute("x1"), lines[2].getAttribute("x2"), lines[2].getAttribute("y1"), lines[2].getAttribute("y2")];
+            edge.arrowElems[1].setAttribute("x1", line2[0]);
+            edge.arrowElems[1].setAttribute("x2", line2[1]);
+            edge.arrowElems[1].setAttribute("y1", line2[2]);
+            edge.arrowElems[1].setAttribute("y2", line2[3]);
+        }
             
         
     }
@@ -498,9 +516,24 @@ class GraphStruc {
     updateCurvedEdge(edge){
         
         let intersection = this.detectIntersectionLine(edge);
-        let newCurve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5])[0];
+        let curves = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
+        let newCurve = curves[0]
         let str = newCurve.getAttribute("d");
         edge.elem.setAttribute("d", str);
+
+        if(this.directed){
+            let line1 = [curves[1].getAttribute("x1"), curves[1].getAttribute("x2"), curves[1].getAttribute("y1"), curves[1].getAttribute("y2")];
+            edge.arrowElems[0].setAttribute("x1", line1[0]);
+            edge.arrowElems[0].setAttribute("x2", line1[1]);
+            edge.arrowElems[0].setAttribute("y1", line1[2]);
+            edge.arrowElems[0].setAttribute("y2", line1[3]);
+
+            let line2 = [curves[2].getAttribute("x1"), curves[2].getAttribute("x2"), curves[2].getAttribute("y1"), curves[2].getAttribute("y2")];
+            edge.arrowElems[1].setAttribute("x1", line2[0]);
+            edge.arrowElems[1].setAttribute("x2", line2[1]);
+            edge.arrowElems[1].setAttribute("y1", line2[2]);
+            edge.arrowElems[1].setAttribute("y2", line2[3]);
+        }
 
     }
 
@@ -588,7 +621,7 @@ class GraphStruc {
 
         let path = this.bfs(v1, v2);
         path.unshift(v1);
-        this.startBlinking(path, loop);
+        return this.startBlinking(path, loop);
         
     }
 
@@ -638,17 +671,34 @@ class GraphStruc {
     startBlinking(pathSequence, loop) {
         let i = 0;
         let stop = false;
-        let intervalId = setInterval(function () { 
+        let stopBlinking = () => {
+            stop = true;
             if(i > 0){
-                pathSequence[i-1].vertexElem.style.backgroundColor = "white";
+                pathSequence[i-1].vertexElem.style.backgroundColor = pathSequence[i-1].backgroundColor;
             }
             else {
-                pathSequence[pathSequence.length-1].vertexElem.style.backgroundColor = "white";
+                pathSequence[pathSequence.length-1].vertexElem.style.backgroundColor = pathSequence[pathSequence.length-1].backgroundColor;
                 if(stop){
                     clearInterval(intervalId);
                     return;
                 }
             }
+        };
+        let intervalId = setInterval(function () { 
+            if(i > 0){
+                pathSequence[i-1].vertexElem.style.backgroundColor = pathSequence[i-1].backgroundColor;
+            }
+            else {
+                pathSequence[pathSequence.length-1].vertexElem.style.backgroundColor = pathSequence[pathSequence.length-1].backgroundColor;
+                if(stop){
+                    clearInterval(intervalId);
+                    return stopBlinking;
+                }
+            }
+            if(stop){
+                return stopBlinking;
+            }
+            
             pathSequence[i].vertexElem.style.backgroundColor = "yellow";
             i++;
             if(i >= pathSequence.length){
@@ -656,6 +706,7 @@ class GraphStruc {
                 if(!loop) stop = true;
             }
         }, 1000);
+        return stopBlinking;
     }
 
 
@@ -676,6 +727,7 @@ class Vertex {
         this.vertexElem.id = key;
         this.highlighted = false;
         this.adjList = [];
+        this.backgroundColor = backgroundColor;
         if(draggable){
             this.vertexElem.ondragstart = drag;
         }
@@ -708,6 +760,7 @@ class Edge {
         this.straightEdge = straightEdge;
         this.elem = elem;
         this.directed = directed;
+        this.arrowElems = [];
 
         this.v1.adjList.push(v2);
         if(!this.directed){

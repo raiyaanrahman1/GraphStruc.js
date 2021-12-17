@@ -31,7 +31,10 @@ graph.addEdge(7, 4);
 graph.addEdge(4, 5);
 graph.addEdge(8, 6);
 
-// graph.animatePath(7, 5);
+let stopFunction = graph.animatePath(7, 5);
+setTimeout(()=> {
+    stopFunction();
+}, 13000)
 // graph.addEdge(10000, 10001);
 
 let graph2Div = document.getElementById("graph2");
