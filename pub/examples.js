@@ -6,7 +6,7 @@ let graphDiv = document.getElementById("graph");
 // This helps the library convert units, and makes it more responsive
 // The graphDiv element should be a container for only the GraphStruc, nothing else, since the GraphStruct will take up 100%
 // of the element's space 
-let graph = new GraphStruc(graphDiv, false, 3);
+let graph = new GraphStruc(graphDiv, true, 3);
 for(let i = 0; i < 9; i++){
     graph.createVertex(i, "50px", i, "rgb(37, 193, 204)", true);
 }
@@ -29,6 +29,7 @@ graph.addEdge(0, 6);
 graph.addEdge(0, 8);
 graph.addEdge(7, 4);
 graph.addEdge(4, 5);
+graph.addEdge(8, 6);
 
 // graph.animatePath(7, 5);
 // graph.addEdge(10000, 10001);
@@ -43,7 +44,7 @@ for(let i = 0; i < 9; i++){
 graph2.addEdge(0, 1);
 graph2.addEdge(1, 2);
 graph2.addEdge(2, 8);
-graph2.animatePath(0, 8);
+// graph2.animatePath(0, 8);
 
 let graph3Div = document.getElementById("graph3");
 let graph3 = new GraphStruc(graph3Div, false);

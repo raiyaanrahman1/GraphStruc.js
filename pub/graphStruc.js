@@ -96,13 +96,13 @@ class GraphStruc {
                     edge.elem.remove();
                     let intersection = this.detectIntersectionLine(edge);
                     if(!intersection[0]){
-                        let line = this.getEdgeElem(edge);
+                        let line = this.getEdgeElem(edge)[0];
                         this.edgesContainer.append(line);
                         edge.elem = line;
                         edge.straightEdge = true;
                     }
                     else {
-                        let curve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
+                        let curve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5])[0];
                         this.edgesContainer.append(curve);
                         edge.elem = curve;
                         edge.straightEdge = false;
@@ -252,14 +252,23 @@ class GraphStruc {
         this.edges.push(edge);
         let intersection = this.detectIntersectionLine(edge);
         if(!intersection[0]){
-            let line = this.getEdgeElem(edge);
-            this.edgesContainer.append(line);
+            let lines = this.getEdgeElem(edge);
+            let line = lines[0];
+
+            for(let line of lines){
+                this.edgesContainer.append(line);
+            }
+            
             edge.elem = line;
             edge.straightEdge = true;
         }
         else {
-            let curve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
-            this.edgesContainer.append(curve);
+            let curves = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
+            let curve = curves[0];
+            for(let elem of curves){
+                this.edgesContainer.append(elem);
+            }
+            
             edge.elem = curve;
             edge.straightEdge = false;
         }
@@ -268,40 +277,131 @@ class GraphStruc {
 
     // private helper
     getEdgeElem(edge) {
+        let lines = []
         let v1 = edge.v1;
         let v2 = edge.v2;
-        if(!this.directed){
-            let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-            let x1 = parseFloat(v1.position[0].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
-            let y1 = parseFloat(v1.position[1].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
-            let x2 = parseFloat(v2.position[0].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
-            let y2 = parseFloat(v2.position[1].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
-            line.setAttributeNS(null, "x1", x1);
-            line.setAttributeNS(null, "y1", y1);
-            line.setAttributeNS(null, "x2", x2);
-            line.setAttributeNS(null, "y2", y2);
-            line.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
-            return line;
+        
+        let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        let x1 = parseFloat(v1.position[0].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
+        let y1 = parseFloat(v1.position[1].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
+        let x2 = parseFloat(v2.position[0].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
+        let y2 = parseFloat(v2.position[1].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
+        line.setAttributeNS(null, "x1", x1);
+        line.setAttributeNS(null, "y1", y1);
+        line.setAttributeNS(null, "x2", x2);
+        line.setAttributeNS(null, "y2", y2);
+        line.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
+        lines.push(line);
+
+        if(this.directed){
+            let [diamMag, diamUnit] = v2.diameter.split(UNIT_REGEX);
+            diamMag = parseFloat(diamMag);
+            diamMag = convertToPixel(diamMag, diamUnit, this.width);
+            if(x1 !== x2){
+                lines.push(...this.getArrows(x1, x2, y1, y2, diamMag/2));
+            }
+            else{
+                let dir = 1;
+                if(y1 < y2) {
+                    dir = -1;
+                }
+                let leftLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                let rightLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+
+                leftLine.setAttributeNS(null, "x1", x2);
+                leftLine.setAttributeNS(null, "y1", y2 + dir*diamMag/2);
+                leftLine.setAttributeNS(null, "x2", x2 - 20/Math.sqrt(2));
+                leftLine.setAttributeNS(null, "y2", y2 + dir*diamMag/2 + dir*20/Math.sqrt(2));
+                leftLine.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
+
+                rightLine.setAttributeNS(null, "x1", x2);
+                rightLine.setAttributeNS(null, "y1", y2 + dir*diamMag/2);
+                rightLine.setAttributeNS(null, "x2", x2 + 20/Math.sqrt(2));
+                rightLine.setAttributeNS(null, "y2", y2 + dir*diamMag/2 + dir*20/Math.sqrt(2));
+                rightLine.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
+
+                lines.push(leftLine, rightLine);
+            }
+            
         }
+        return lines;
+        
     }
 
     // private helper
     updateEdge(edge) {
         let v1 = edge.v1;
         let v2 = edge.v2;
-        if(!this.directed){
-            let line = edge.elem;
-            let x1 = parseFloat(v1.position[0].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
-            let y1 = parseFloat(v1.position[1].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
-            let x2 = parseFloat(v2.position[0].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
-            let y2 = parseFloat(v2.position[1].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
-            line.setAttributeNS(null, "x1", x1);
-            line.setAttributeNS(null, "y1", y1);
-            line.setAttributeNS(null, "x2", x2);
-            line.setAttributeNS(null, "y2", y2);
-            line.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
+        
+        let line = edge.elem;
+        let x1 = parseFloat(v1.position[0].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
+        let y1 = parseFloat(v1.position[1].split(UNIT_REGEX)[0]) + parseFloat(v1.diameter.split(UNIT_REGEX)[0]) / 2;
+        let x2 = parseFloat(v2.position[0].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
+        let y2 = parseFloat(v2.position[1].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
+        line.setAttributeNS(null, "x1", x1);
+        line.setAttributeNS(null, "y1", y1);
+        line.setAttributeNS(null, "x2", x2);
+        line.setAttributeNS(null, "y2", y2);
+        line.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
             
+        
+    }
+
+    // private helper
+    getArrows(x1, x2, y1, y2, rad) {
+        let dir = 1;
+        if(x1 < x2){
+            dir = -1;
         }
+        let upLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        let len = 10;
+        let downSlope = (y2-y1) / (x2 - x1);
+        
+        let upSlope = -downSlope;
+        
+        let downB = y2 - downSlope*x2;
+        
+        let upB = y2 - upSlope*x2;
+
+        let a = (downSlope**2 + 1);
+        let b = (2*downSlope*downB - 2*downSlope*y2 - 2*x2);
+        let c = downB**2 + y2**2 - 2*downB*y2 + x2**2 - (rad)**2;
+        let xIntersect = (-b + dir*Math.sqrt(b**2 - 4*a*c)) / (2*a);
+        let yIntersect = downSlope*xIntersect + downB;
+
+        let angle = Math.atan(downSlope);
+        let newDownSlope = Math.tan(angle + Math.PI/4);
+        let newUpSlope = Math.tan(angle - Math.PI/4);
+        let newDownB = yIntersect - newDownSlope*xIntersect;
+        let newUpB = yIntersect - newUpSlope*xIntersect;
+
+        let dist = 20;
+        let newA = newUpSlope**2 + 1;
+        let newB = 2*newUpSlope*newUpB - 2*newUpSlope*yIntersect - 2*xIntersect;
+        let newC = newUpB**2 + yIntersect**2 - 2*newUpB*yIntersect + xIntersect**2 - dist**2;
+
+        let upX = (-newB + dir*Math.sqrt(newB**2 - 4*newA*newC)) / (2*newA);
+
+        upLine.setAttributeNS(null, "x1", xIntersect);
+        upLine.setAttributeNS(null, "y1", yIntersect);
+        upLine.setAttributeNS(null, "x2", upX);
+        upLine.setAttributeNS(null, "y2", newUpSlope*(upX) + newUpB);
+        upLine.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
+        
+        // let dist = Math.sqrt(len**2 + (newUpSlope*(xIntersect + dir*len) + newUpB - yIntersect)**2);
+        newA = newDownSlope**2 + 1;
+        newB = 2*newDownSlope*newDownB - 2*newDownSlope*yIntersect - 2*xIntersect;
+        newC = newDownB**2 + yIntersect**2 - 2*newDownB*yIntersect + xIntersect**2 - dist**2;
+        
+        let downX = (-newB + dir*Math.sqrt(newB**2 - 4*newA*newC)) / (2*newA);
+        let downLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        downLine.setAttributeNS(null, "x1", xIntersect);
+        downLine.setAttributeNS(null, "y1", yIntersect);
+        downLine.setAttributeNS(null, "x2", downX);
+        downLine.setAttributeNS(null, "y2", newDownSlope*(downX) + newDownB);
+        downLine.setAttributeNS(null, "style", "stroke:black; stroke-width:1");
+
+        return [upLine, downLine];
     }
 
     // private helper
@@ -313,6 +413,8 @@ class GraphStruc {
         let x2 = parseFloat(v2.position[0].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
         let y2 = parseFloat(v2.position[1].split(UNIT_REGEX)[0]) + parseFloat(v2.diameter.split(UNIT_REGEX)[0]) / 2;
         let m = (y2 - y0) / (x2 - x0);
+        let curves = [];
+
         if(m === 0){
             let x1 = xi;
             let y1 = yi + (4*r);
@@ -320,7 +422,15 @@ class GraphStruc {
             curve.setAttributeNS(null, "d", `M ${x0} ${y0} Q ${x1} ${y1} ${x2} ${y2}`);
             curve.setAttributeNS(null, "stroke", "black");
             curve.setAttributeNS(null, "fill", "transparent");
-            return curve;
+            curves.push(curve);
+
+            if(this.directed){
+                let [diamMag, diamUnit] = v2.diameter.split(UNIT_REGEX);
+                diamMag = parseFloat(diamMag);
+                diamMag = convertToPixel(diamMag, diamUnit, this.width);
+                curves.push(...this.getArrows(x1, x2, y1, y2, diamMag/2));
+            }
+            return curves;
 
         }
         if(x2 - x0 === 0){
@@ -330,7 +440,16 @@ class GraphStruc {
             curve.setAttributeNS(null, "d", `M ${x0} ${y0} Q ${x1} ${y1} ${x2} ${y2}`);
             curve.setAttributeNS(null, "stroke", "black");
             curve.setAttributeNS(null, "fill", "transparent");
-            return curve;
+            curves.push(curve);
+
+            if(this.directed){
+                let [diamMag, diamUnit] = v2.diameter.split(UNIT_REGEX);
+                diamMag = parseFloat(diamMag);
+                diamMag = convertToPixel(diamMag, diamUnit, this.width);
+                curves.push(...this.getArrows(x1, x2, y1, y2, diamMag/2));
+            }
+
+            return curves;
         }
         let n = -1/m;
         let a = (n**2 + 1);
@@ -343,7 +462,16 @@ class GraphStruc {
             curve.setAttributeNS(null, "d", `M ${x0} ${y0} Q ${x1} ${y1} ${x2} ${y2}`);
             curve.setAttributeNS(null, "stroke", "black");
             curve.setAttributeNS(null, "fill", "transparent");
-            return curve;
+            curves.push(curve);
+
+            if(this.directed){
+                let [diamMag, diamUnit] = v2.diameter.split(UNIT_REGEX);
+                diamMag = parseFloat(diamMag);
+                diamMag = convertToPixel(diamMag, diamUnit, this.width);
+                curves.push(...this.getArrows(x1, x2, y1, y2, diamMag/2));
+            }
+
+            return curves;
 
         }
         else {
@@ -353,7 +481,16 @@ class GraphStruc {
             curve.setAttributeNS(null, "d", `M ${x0} ${y0} Q ${x1} ${y1} ${x2} ${y2}`);
             curve.setAttributeNS(null, "stroke", "black");
             curve.setAttributeNS(null, "fill", "transparent");
-            return curve;
+            curves.push(curve);
+
+            if(this.directed){
+                let [diamMag, diamUnit] = v2.diameter.split(UNIT_REGEX);
+                diamMag = parseFloat(diamMag);
+                diamMag = convertToPixel(diamMag, diamUnit, this.width);
+                curves.push(...this.getArrows(x1, x2, y1, y2, diamMag/2));
+            }
+
+            return curves;
         }
         
     }
@@ -361,7 +498,7 @@ class GraphStruc {
     updateCurvedEdge(edge){
         
         let intersection = this.detectIntersectionLine(edge);
-        let newCurve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
+        let newCurve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5])[0];
         let str = newCurve.getAttribute("d");
         edge.elem.setAttribute("d", str);
 
