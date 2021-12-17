@@ -89,23 +89,43 @@ class GraphStruc {
                 newPosOriginal[1] = 100 * (parseFloat(newPos[1].split(UNIT_REGEX)[0]) + diamMag / 2) / this.height + "%";
             }
             vert.positionOriginal = newPosOriginal;
-            console.log(newPos);
+            // console.log(newPos);
             
             for(let edge of this.edges){
                 if(edge.v1.key === vert.key || edge.v2.key === vert.key){
                     edge.elem.remove();
+                    if(this.directed){
+                        edge.arrowElems[0].remove();
+                        edge.arrowElems[1].remove();
+                        edge.arrowElems = [];
+                    }
                     let intersection = this.detectIntersectionLine(edge);
                     if(!intersection[0]){
-                        let line = this.getEdgeElem(edge)[0];
+                        let lines = this.getEdgeElem(edge);
+                        let line = lines[0];
                         this.edgesContainer.append(line);
                         edge.elem = line;
                         edge.straightEdge = true;
+
+                        if(this.directed){
+                            edge.arrowElems.push(lines[1], lines[2]);
+                            this.edgesContainer.append(lines[1]);
+                            this.edgesContainer.append(lines[2]);
+                        }
                     }
                     else {
-                        let curve = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5])[0];
+                        let curves = this.getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
+                        let curve = curves[0];
                         this.edgesContainer.append(curve);
                         edge.elem = curve;
                         edge.straightEdge = false;
+
+                        if(this.directed){
+                            edge.arrowElems.push(curves[1], curves[2]);
+                            this.edgesContainer.append(curves[1]);
+                            this.edgesContainer.append(curves[2]);
+
+                        }
                     }
                 }
             }
