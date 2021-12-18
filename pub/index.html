@@ -8,6 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Make sure you link your css before the graphStruc.js file because the parent of graph elements
+    must have height in order for it to work -->
+    
     <link rel="stylesheet" href="css/app.css">
     <script defer type="text/javascript" src="/js/graphStruc.js"></script>
     <script defer type="text/javascript" src="/js/examples.js"></script>
@@ -46,7 +49,7 @@
         <div id="graph" style="display: inline-block; width: 100%; height: 50%"> </div>
         <!-- If you're adding the graph directly to the body (eg. above ^), make sure you add html, body {height: 100%;} to your css -->
         <div style="height: 50%;">
-            <div style="display:inline-block; width: 20%; height: 100%"> You can add graphs inline as well. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum ipsam voluptas dolores dolorum necessitatibus eum? Ratione architecto fugiat unde ipsa eum iste ducimus totam quo, neque qui odio ipsam quidem facere esse voluptatum veritatis tenetur dolor temporibus numquam voluptas. Nostrum repudiandae voluptatum velit aspernatur quisquam minima cupiditate maiores placeat possimus. </div>
+            <div style="display:inline-block; vertical-align:top; margin-top:40px; margin-right: 20px; width: 20%; height: 100%"> You can add graphs inline as well. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum ipsam voluptas dolores dolorum necessitatibus eum? Ratione architecto fugiat unde ipsa eum iste ducimus totam quo, neque qui odio ipsam quidem facere esse voluptatum veritatis tenetur dolor temporibus numquam voluptas. Nostrum repudiandae voluptatum velit aspernatur quisquam minima cupiditate maiores placeat possimus. </div>
             <div id="graph2" style="display: inline-block; width: 75%; height: 100%; border: 1px solid"> </div>
             <!-- Make sure the parent of this element ^ has a height. -->
     
