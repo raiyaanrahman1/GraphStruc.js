@@ -13,7 +13,6 @@
     
     <link rel="stylesheet" href="css/app.css">
     <script defer type="text/javascript" src="/js/graphStruc.js"></script>
-    <script defer type="text/javascript" src="/js/examples.js"></script>
     
     <title>Document</title>
     <style>
@@ -37,37 +36,158 @@
 
     <div class="content">
         
-        <h1 class="title"> GraphStruc.js </h1>
-        <h2 class="title"> An easy, lightweight, javascript graph library</h2>
-        <p> A graph abstract data type is a network structure in computer science that consists of
-            vertices (or nodes) represented by circles, and lines or arrows connecting different vertices
-            called edges. Graphs are good for visualizing relationships between different objects. My library
-            will allow developers to create animated graph structures and integrate them into their web
-            apps easily. This will be very useful for developers, as coding a graph yourself would be tricky
-            and time-consuming, especially for a complex graph. My graph library is currently responsive and supports draggable vertices.</p>
+        <h1 class="title"> Documentation </h1>
+        <h2> Getting Started </h2>
+        <ol class="getting-started"> 
+            <li>Download the script <a href="/js/graphStruc.js" download> here </a></li>
+            <li>Copy it to your working directory (ie. your project folder - it can be in the same folder as your html file such as index.html, or in a separate folder. Just make sure to refer to the correct location in step 3)</li>
+            <li>Add the following line of code in your html before <i>your</i>  script tag (ie. the JS for your html, where you will use the library): : <br> <code>&lt;script defer type="text/javascript" src="&lt;path/to/graphStruc.js&gt;"&gt;&lt;/script&gt;</code> <br> and replace &lt;path/to/graphStruc.js&gt; with the path to the file you just downloaded. This will just be "graphStruc.js" if your html and graphStruc file are in the same folder</li>
+            <li>Add the <code>defer</code> attribute to <i>your</i> script tag (the JS for your html, where you will use the library)</li>
+            <li>I suggest linking your style sheet <strong>before</strong> the graphStruc.js script tag, as graphs need to be placed in divs with an explicit height (see usage for details). If you are using an external JS file for <i>your</i> JavaScript, then your header should look similar to the following: 
+                <br> 
+                <pre>
+                    <code>
+                        &lt;link rel="stylesheet" href="styles.css"&gt;
+                        &lt;script defer type="text/javascript" src="graphStruc.js"&gt;&lt;/script&gt;
+                        &lt;script defer type="text/javascript" src="myJS.js"&gt;&lt;/script&gt;
+                    </code>
+                </pre>
+                You are now setup! You can now create a graph with <code>new Graph()</code> in your JS file and access all public methods.
+            </li>
+        </ol>
         
-        <div id="graph" style="display: inline-block; width: 100%; height: 50%"> </div>
-        <!-- If you're adding the graph directly to the body (eg. above ^), make sure you add html, body {height: 100%;} to your css -->
-        <div style="height: 50%;">
-            <div style="display:inline-block; vertical-align:top; margin-top:40px; margin-right: 20px; width: 20%; height: 100%"> You can add graphs inline as well. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum ipsam voluptas dolores dolorum necessitatibus eum? Ratione architecto fugiat unde ipsa eum iste ducimus totam quo, neque qui odio ipsam quidem facere esse voluptatum veritatis tenetur dolor temporibus numquam voluptas. Nostrum repudiandae voluptatum velit aspernatur quisquam minima cupiditate maiores placeat possimus. </div>
-            <div id="graph2" style="display: inline-block; width: 75%; height: 100%; border: 1px solid"> </div>
-            <!-- Make sure the parent of this element ^ has a height. -->
-    
-        </div>
-    
-        <p style="margin-top: 100px;"> Using default positioning makes it easy to create nodes in a row, column (shown below), or grid (shown above). You can also drag vertices. Try dragging any of the vertices from the two graphs below</p>
-        <div id="graph3" style="display: inline-block; width: 100%; height: 50%"> </div>
-        <div id="graph4" style="display: inline-block; width: 100%; height: 100%"> </div>
-    
-    
-        <p>You can also position vertices wherever you want on the graph, and also choose the radius of the vertex </p>
-        <div id="graph5" style="display: inline-block; width: 100%; height: 50%; border: 1px solid"> </div>
-    
-        <p> Edges are easy to add and will automatically detect intersections and adjust its curvature so hopefully it doesn't intersect with unintended vertices anymore. Note that this does not guarantee it doesn't intersect, since it may not always be possible, depending on absolutely positioned vertices </p>
-        <div id="graph6" style="display: inline-block; width: 100%; height: 50%"> </div>
-    
-        <p> Example: Subway Map</p>
-        <div id="graph7" style="display: inline-block; width: 90%; height: 90%"> </div>
+        <h2> API </h2>
+        <table class="api-table">
+            <tr>
+                <th>Method and usage</th>
+                <th>Parameter Description</th>
+            </tr>
+            <tr>
+                <td>
+                    Constructor
+                    <br>
+                    <br>
+                    <code>new GraphStruc(container: any, directed?: boolean, maxNodesPerRow?: number)</code>
+                    <br>
+                    Description: Create a new graph inside <i>container</i>
+                    <br> 
+                    <br>
+                    Return Value: A new GraphStruc 
+                </td>
+
+                <td>
+                    <ul>
+                        <li>
+                            <i>container</i> (required): The DOM element that you want the graph to be in. You should not put anything in this element other than the graph.
+                            In other words, in your HTML it should be an empty div. You can style it however you want (such as adding a border), but <strong>make sure</strong> that
+                            <i>container</i> and all its ancestor elements (including html and body) have explicit heights in the style, otherwise the graph will be squashed to 0 height. 
+
+                            <br>
+                            <br>
+                            Eg.
+                            <pre>
+                                <code>
+                                    &lt;style&gt;
+                                    html, body, .parent, .container {
+                                        height: 100%;
+                                    }
+                                    .highest-parent {
+                                        height: 50%;
+                                    }
+                                    &lt;/style&gt;
+
+                                    &lt;div class="highest-parent"&gt;
+                                        Some HTML
+                                        &lt;div class="parent"&gt;
+                                            Some HTML
+                                            &lt;div class="container"&gt; &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                </code>
+                            </pre>
+                        </li>
+
+                        <li>
+                            <i>directed</i> (optional): Is the graph directed? Then <code>true</code>. If undirected then <code>false</code>. <code>false</code> by default if unspecified.
+                        </li>
+
+                        <li>
+                            <i>maxNodesPerRow</i> (optional): For default positioning, how many nodes should be in each row of the graph? <code>Infinity</code> by default if unspecified
+                            (unlimited nodes in a single row). For unlimited nodes per row, pass <code>Infinity</code>.
+                        </li>
+                    </ul>
+                    
+                    
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <code>createVertex(key: any, diameter: string, innerHTML?: string, backgroundColor?: string, draggable?: boolean, position?: array): void</code>
+                    <br>
+                    <br>
+                    Description: Add a new vertex to the graph.
+                    <br> 
+                    <br>
+                    Return Value: void
+                </td>
+                <td>
+                    <ul>
+                        <li><i>key</i> (required): A unique key for the vertex. <code>createVertex</code> will throw an error if it is not unique</li>
+                        <li><i>diameter</i> (required): A css length, a string formatted as a number followed by a css unit with no space (such as "50px") representing the diameter of the vertex. <code>createVertex</code> will throw an error if an invalid string is given </li>
+                        <li> <i>innerHTML</i> (optional): The innerHTML specified as a string of the vertex element. You can pass the same value as <i>key</i> to see the keys of each vertex. Empty string by default ("")</li>
+                        <li> <i>backgroundColor</i> (optional): A css color as a string (eg. "rgb(255, 0, 0)" or "#F0F8FF") representing the background color of the vertex. White by default</li>
+                        <li><i>draggable</i> (optional): Is the vertex draggable by the user? Pass in a boolean for this parameter. <code>false</code> by default.</li>
+                        <li><i>position</i> (optional): An array of length 2 representing the (x, y) coordinate of the vertex from the top left of the graph. Each element is a css length (a string, same format as <i>diameter</i>). For default positioning, leave this blank or pass <code>undefined</code> 
+                        This parameter is only used for absolutely positioning a vertex. Using percent (%) as the unit is recommended so that the graph will be responsive to changes in the window size. </li>
+
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <code>addEdge(key1: any, key2: any): void</code>
+                    <br>
+                    <br>
+                    Description: Add a new edge to the graph.
+                    <br> 
+                    <br>
+                    Return Value: void
+                </td>
+
+                <td>
+                    <ul>
+                        <li><i>key1</i> (required): The key of the first vertex (the vertex from which the edge will be outgoing for directed graphs)</li>
+                        <li><i>key2</i> (required): The key of the second vertex (the vertex from which the edge will be incoming for directed graphs)</li>
+
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <code>animatePath(key1: any, key2: any, loop?: boolean): () => void</code> 
+                    <br>
+                    <br>
+                    Description: Animate the shortest path from vertex with key of <i>key1</i> to the vertex with key of <i>key2</i>. There must be a valid path
+                    from the specified vertices using edges in the graph, otherwise the method will throw an error.
+                    <br> 
+                    <br>
+                    Return Value: A function with no parameters and a void return value, that stops the animation. 
+                </td>
+
+                <td>
+                    <ul>
+                        <li><i>key1</i> (required): The key of the starting vertex</li>
+                        <li><i>key2</i> (required): The key of the ending vertex</li>
+                    </ul>
+                </td>
+            </tr>
+
+
+            
+        </table>
     </div>
     
     

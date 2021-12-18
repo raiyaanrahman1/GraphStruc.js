@@ -12,8 +12,6 @@
     must have height in order for it to work -->
     
     <link rel="stylesheet" href="css/app.css">
-    <script defer type="text/javascript" src="/js/graphStruc.js"></script>
-    <script defer type="text/javascript" src="/js/examples.js"></script>
     
     <title>Document</title>
     <style>
@@ -37,39 +35,25 @@
 
     <div class="content">
         
-        <h1 class="title"> GraphStruc.js </h1>
-        <h2 class="title"> An easy, lightweight, javascript graph library</h2>
-        <p> A graph abstract data type is a network structure in computer science that consists of
-            vertices (or nodes) represented by circles, and lines or arrows connecting different vertices
-            called edges. Graphs are good for visualizing relationships between different objects. My library
-            will allow developers to create animated graph structures and integrate them into their web
-            apps easily. This will be very useful for developers, as coding a graph yourself would be tricky
-            and time-consuming, especially for a complex graph. My graph library is currently responsive and supports draggable vertices.</p>
-        
-        <div id="graph" style="display: inline-block; width: 100%; height: 50%"> </div>
-        <!-- If you're adding the graph directly to the body (eg. above ^), make sure you add html, body {height: 100%;} to your css -->
-        <div style="height: 50%;">
-            <div style="display:inline-block; vertical-align:top; margin-top:40px; margin-right: 20px; width: 20%; height: 100%"> You can add graphs inline as well. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum ipsam voluptas dolores dolorum necessitatibus eum? Ratione architecto fugiat unde ipsa eum iste ducimus totam quo, neque qui odio ipsam quidem facere esse voluptatum veritatis tenetur dolor temporibus numquam voluptas. Nostrum repudiandae voluptatum velit aspernatur quisquam minima cupiditate maiores placeat possimus. </div>
-            <div id="graph2" style="display: inline-block; width: 75%; height: 100%; border: 1px solid"> </div>
-            <!-- Make sure the parent of this element ^ has a height. -->
-    
-        </div>
-    
-        <p style="margin-top: 100px;"> Using default positioning makes it easy to create nodes in a row, column (shown below), or grid (shown above). You can also drag vertices. Try dragging any of the vertices from the two graphs below</p>
-        <div id="graph3" style="display: inline-block; width: 100%; height: 50%"> </div>
-        <div id="graph4" style="display: inline-block; width: 100%; height: 100%"> </div>
-    
-    
-        <p>You can also position vertices wherever you want on the graph, and also choose the radius of the vertex </p>
-        <div id="graph5" style="display: inline-block; width: 100%; height: 50%; border: 1px solid"> </div>
-    
-        <p> Edges are easy to add and will automatically detect intersections and adjust its curvature so hopefully it doesn't intersect with unintended vertices anymore. Note that this does not guarantee it doesn't intersect, since it may not always be possible, depending on absolutely positioned vertices </p>
-        <div id="graph6" style="display: inline-block; width: 100%; height: 50%"> </div>
-    
-        <p> Example: Subway Map</p>
-        <div id="graph7" style="display: inline-block; width: 90%; height: 90%"> </div>
-    </div>
-    
+        <h1 class="title"> Download </h1>
+        <h2> Getting Started </h2>
+        <ol class="getting-started"> 
+            <li>Download the script <a href="/js/graphStruc.js" download> here </a></li>
+            <li>Copy it to your working directory (ie. your project folder - it can be in the same folder as your html file such as index.html, or in a separate folder. Just make sure to refer to the correct location in step 3)</li>
+            <li>Add the following line of code in your html before <i>your</i>  script tag (ie. the JS for your html, where you will use the library): : <br> <code>&lt;script defer type="text/javascript" src="&lt;path/to/graphStruc.js&gt;"&gt;&lt;/script&gt;</code> <br> and replace &lt;path/to/graphStruc.js&gt; with the path to the file you just downloaded. This will just be "graphStruc.js" if your html and graphStruc file are in the same folder</li>
+            <li>Add the <code>defer</code> attribute to <i>your</i> script tag (the JS for your html, where you will use the library)</li>
+            <li>I suggest linking your style sheet <strong>before</strong> the graphStruc.js script tag, as graphs need to be placed in divs with an explicit height (see usage for details). If you are using an external JS file for <i>your</i> JavaScript, then your header should look similar to the following: 
+                <br> 
+                <pre>
+                    <code>
+                        &lt;link rel="stylesheet" href="styles.css"&gt;
+                        &lt;script defer type="text/javascript" src="graphStruc.js"&gt;&lt;/script&gt;
+                        &lt;script defer type="text/javascript" src="myJS.js"&gt;&lt;/script&gt;
+                    </code>
+                </pre>
+                You are now setup! You can now create a graph with <code>new Graph()</code> in your JS file and access all public methods.
+            </li>
+        </ol>
     
    
 </body>
