@@ -208,6 +208,7 @@ const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
             if (key === undefined) {
                 throw new TypeError("Undefined Key");
             }
+            key = String(key);
             for (let vertex of this.#vertices) {
                 if (vertex.key === key) {
                     throw new RangeError("Not a unique key");
@@ -266,6 +267,8 @@ const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
             if (key1 === undefined || key2 === undefined) {
                 throw new TypeError("Undefined Key");
             }
+            key1 = String(key1);
+            key2 = String(key2);
             let [v1found, v2found] = [false, false];
             let v1, v2;
             for (let vertex of this.#vertices) {
@@ -645,6 +648,8 @@ const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
         animatePath(key1, key2, loop = true) {
             let v1, v2;
             let foundv1 = false, foundv2 = false;
+            key1 = String(key1);
+            key2 = String(key2);
             for (let v of this.#vertices) {
                 if (v.key === key1) {
                     v1 = v;
