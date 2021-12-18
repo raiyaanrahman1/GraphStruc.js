@@ -261,6 +261,20 @@ const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
                 }
             }
 
+            let curvedEdges = [];
+            for (let edge of this.#edges) {
+                if (edge.straightEdge) {
+                    this.#updateEdge(edge);
+                }
+                else {
+                    curvedEdges.push(edge);
+                }
+            }
+
+            for (let edge of curvedEdges) {
+                this.#updateCurvedEdge(edge);
+            }
+
         }
 
         addEdge(key1, key2) {
@@ -283,6 +297,15 @@ const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
             }
             if (!(v1found && v2found)) {
                 throw new TypeError(`Could not find one of the keys for the edge (${key1}, ${key2})`);
+            }
+
+            for(let edge of this.#edges){
+                if(edge.v1.key === key1 && edge.v2.key === key2){
+                    throw new TypeError(`The edge from ${key1} to ${key2} already exists`);
+                }
+                else if(!this.#directed && edge.v1.key === key2 && edge.v2.key === key1){
+                    throw new TypeError(`The edge from ${key1} to ${key2} already exists`);
+                }
             }
             // let edge = {v1: v1, v2: v2}
             let edge = new Edge(v1, v2, this.#directed);

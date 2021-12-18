@@ -44,13 +44,17 @@
             called edges. Graphs are good for visualizing relationships between different objects. My library
             will allow developers to create animated graph structures and integrate them into their web
             apps easily. This will be very useful for developers, as coding a graph yourself would be tricky
-            and time-consuming, especially for a complex graph. My graph library is currently responsive and supports draggable vertices.</p>
+            and time-consuming, especially for a complex graph. My graph library is currently responsive and supports draggable vertices.
+        </p>
         
+        <h3>Playground:</h3>
+        <br>
+
         <div id="graph" style="display: inline-block; width: 100%; height: 50%; border: 1px solid; margin-bottom: 20px"> </div>
 
-        <form action="" id="addVertexForm">
+        <form action="" id="addVertexForm" style="display: inline-block; width: 40%">
             <h4>Add Vertex:</h4>
-            <div style="display: inline-block">
+            <div style="display: inline-block; width: 30%">
                 Key:
                 <br>
                 Diameter (%):
@@ -62,7 +66,7 @@
                 Position (x%,y%):
             </div>
             
-            <div style="display: inline-block; width: 10%">
+            <div style="display: inline-block; width: 30%; vertical-align: top;">
                 <input style="width: 100%" type="text" id="key" name="key" value="Hi" required>
                 <br>
                 <input style="width: 100%" type="text" id="diameter" name="diameter" value="5">
@@ -80,6 +84,48 @@
             <input type="submit" value="Add">
 
             <p id="addVertexError" style="color:red"></p>
+            
+        </form>
+
+        <form action="" id="addEdgeForm" style="display: inline-block; vertical-align: top; width: 10%">
+            <h4>Add Edge:</h4>
+            <div style="display: inline-block">
+                Key 1:
+                <br>
+                Key 2:
+            </div>
+            
+            <div style="display: inline-block; width: 10%">
+                <input style="width: 100%" type="text" id="addEdgeKey1" name="key1" value="0" required>
+                <br>
+                <input style="width: 100%" type="text" id="addEdgeKey2" name="key2" value="1" required>
+                
+            </div>
+            <br>
+            <input type="submit" value="Add">
+
+            <p id="addEdgeError" style="color:red"></p>
+            
+        </form>
+
+        <form action="" id="animatePathForm" style="display: inline-block; vertical-align: top; width: 10%">
+            <h4>Animate Path:</h4>
+            <div style="display: inline-block">
+                Key 1:
+                <br>
+                Key 2:
+            </div>
+            
+            <div style="display: inline-block; width: 10%">
+                <input style="width: 100%" type="text" id="animatePathKey1" name="key1" value="3" required>
+                <br>
+                <input style="width: 100%" type="text" id="animatePathKey2" name="key2" value="5" required>
+                
+            </div>
+            <br>
+            <input type="submit" value="Animate">
+
+            <p id="animatePathError" style="color:red"></p>
             
         </form>
         

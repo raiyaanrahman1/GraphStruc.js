@@ -82,3 +82,34 @@ document.getElementById("addVertexForm").addEventListener("submit", (e) => {
     }
 
 } );
+
+document.getElementById("addEdgeForm").addEventListener("submit", (e)=>{
+    e.preventDefault();
+
+    let key1 = document.getElementById("addEdgeKey1").value;
+    let key2 = document.getElementById("addEdgeKey2").value;
+
+    try {
+        graph.addEdge(key1, key2);
+        document.getElementById("addEdgeError").innerHTML = "";
+    }
+    catch(err) {
+        document.getElementById("addEdgeError").innerHTML = err;
+    }
+});
+
+document.getElementById("animatePathForm").addEventListener("submit", (e)=>{
+    e.preventDefault();
+
+    let key1 = document.getElementById("animatePathKey1").value;
+    let key2 = document.getElementById("animatePathKey2").value;
+
+    try {
+        graph.animatePath(key1, key2);
+        document.getElementById("animatePathError").innerHTML = "";
+    }
+    catch(err) {
+        document.getElementById("animatePathError").innerHTML = err;
+    }
+
+})
