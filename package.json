@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "build": "cp -v examples.js graphStruc.js examples.html pub"
+    "build": "cp -v js/*.js pub/js && cp -v *.html pub && cp -v css/*.css pub/css"
   },
   "author": "",
   "license": "ISC",
