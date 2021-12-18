@@ -238,7 +238,7 @@ const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
                 yMag = parseFloat(yMag);
                 xMag = convertToPixel(xMag, xUnit, this.#width);
                 yMag = convertToPixel(yMag, yUnit, this.#height);
-                position = [(xMag - diamMag / 2) + "px", (yMag - diamMag / 2) + "px"]
+                position = [(xMag - diamMag / 2) + "px", (yMag - diamMag / 2) + "px"];
             }
 
             let vert = new Vertex(key, this.#vertContainer, diamMag + "px", position, positionOriginal, isDefault, innerHTML, backgroundColor, draggable);
@@ -439,10 +439,6 @@ const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
 
             let upX = (-newB + dir3 * dir * Math.sqrt(newB ** 2 - 4 * newA * newC)) / (2 * newA);
 
-            // had to add this because of weird bug, I think due to page reloading too fast (but not sure)
-            if(isNaN(xIntersect)){
-                location.reload();
-            }
             upLine.setAttributeNS(null, "x1", xIntersect);
             upLine.setAttributeNS(null, "y1", yIntersect);
             upLine.setAttributeNS(null, "x2", upX);
