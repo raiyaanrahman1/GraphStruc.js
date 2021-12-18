@@ -37,37 +37,224 @@
 
     <div class="content">
         
-        <h1 class="title"> GraphStruc.js </h1>
-        <h2 class="title"> An easy, lightweight, javascript graph library</h2>
-        <p> A graph abstract data type is a network structure in computer science that consists of
-            vertices (or nodes) represented by circles, and lines or arrows connecting different vertices
-            called edges. Graphs are good for visualizing relationships between different objects. My library
-            will allow developers to create animated graph structures and integrate them into their web
-            apps easily. This will be very useful for developers, as coding a graph yourself would be tricky
-            and time-consuming, especially for a complex graph. My graph library is currently responsive and supports draggable vertices.</p>
+        <h1 class="title"> Examples </h1>
         
-        <div id="graph" style="display: inline-block; width: 100%; height: 50%"> </div>
+        <h4 class="example-heading">Example 1</h4>
+        <p>Directed graph, with default positioning and draggable vertices. Border is optional. </p>
+        
+        <div id="graph" style="width: 100%; height: 50%"> </div>
         <!-- If you're adding the graph directly to the body (eg. above ^), make sure you add html, body {height: 100%;} to your css -->
+
+        <h5>HTML:</h5>
+        <pre>
+            <code>
+                <!-- Inside Body -->
+                &lt;div id="graph" style="width: 100%; height: 50%"&gt; &lt;/div&gt;
+            </code>
+        </pre>
+
+        <h5> JavaScript: </h5>
+        <pre>
+            <code>
+                let graphDiv = document.getElementById("graph");
+                let graph = new GraphStruc(graphDiv, true, 3);
+                for(let i = 0; i < 9; i++){
+                    graph.createVertex(i, "50px", i, "rgb(37, 193, 204)", true);
+                }
+                graph.addEdge(0, 2);
+                graph.addEdge(0, 6);
+                graph.addEdge(0, 8);
+                graph.addEdge(7, 4);
+                graph.addEdge(4, 5);
+                graph.addEdge(8, 6);
+                graph.addEdge(3, 7);
+
+                let stopFunction = graph.animatePath(7, 5);
+                setTimeout(()=> {
+                    stopFunction();
+                }, 13000)
+            </code>
+        </pre>
+
+        <h4 class="example-heading">Example 2</h4>
+        <p>You can add graphs inline as well. Example below is undirected, using default positioning. </p>
+        <br>
         <div style="height: 50%;">
-            <div style="display:inline-block; vertical-align:top; margin-top:40px; margin-right: 20px; width: 20%; height: 100%"> You can add graphs inline as well. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum ipsam voluptas dolores dolorum necessitatibus eum? Ratione architecto fugiat unde ipsa eum iste ducimus totam quo, neque qui odio ipsam quidem facere esse voluptatum veritatis tenetur dolor temporibus numquam voluptas. Nostrum repudiandae voluptatum velit aspernatur quisquam minima cupiditate maiores placeat possimus. </div>
+            <div style="display:inline-block; vertical-align:top; margin-top:40px; margin-right: 20px; width: 20%; height: 100%"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum ipsam voluptas dolores dolorum necessitatibus eum? Ratione architecto fugiat unde ipsa eum iste ducimus totam quo, neque qui odio ipsam quidem facere esse voluptatum veritatis tenetur dolor temporibus numquam voluptas. Nostrum repudiandae voluptatum velit aspernatur quisquam minima cupiditate maiores placeat possimus. </div>
             <div id="graph2" style="display: inline-block; width: 75%; height: 100%; border: 1px solid"> </div>
             <!-- Make sure the parent of this element ^ has a height. -->
     
         </div>
+
+        <h5>HTML:</h5>
+        <pre>
+            <code>
+                <!-- Inside Body -->
+                &lt;div style="height: 50%;"&gt;
+                    &lt;div style="display:inline-block; vertical-align:top; margin-top:40px; margin-right: 20px; width: 20%; height: 100%"&gt; Lorem ipsum dolor... &lt;/div&gt;
+                    &lt;div id="graph2" style="display: inline-block; width: 75%; height: 100%; border: 1px solid"&gt; &lt;/div&gt;
+                    &lt;!-- Make sure the parent of this element ^ has a height. --&gt;
+                &lt;/div&gt;
+            </code>
+        </pre>
+
+        <h5> JavaScript: </h5>
+        <pre>
+            <code>
+                let graph2Div = document.getElementById("graph2");
+                let graph2 = new GraphStruc(graph2Div, false, 3);
+                for(let i = 0; i < 9; i++){
+                    graph2.createVertex(i, "50px", i);
+                }
+
+                graph2.addEdge(0, 1);
+                graph2.addEdge(1, 2);
+                graph2.addEdge(2, 8);
+
+            </code>
+        </pre>
     
-        <p style="margin-top: 100px;"> Using default positioning makes it easy to create nodes in a row, column (shown below), or grid (shown above). You can also drag vertices. Try dragging any of the vertices from the two graphs below</p>
+        <br>
+        <h4 class="example-heading">Example 3</h4>
+        <p> Using default positioning makes it easy to create nodes in a row, column (shown below), or grid (shown above). You can also drag vertices. Try dragging any of the vertices from the two graphs below</p>
         <div id="graph3" style="display: inline-block; width: 100%; height: 50%"> </div>
         <div id="graph4" style="display: inline-block; width: 100%; height: 100%"> </div>
+
+        <h5>HTML:</h5>
+        <pre>
+            <code>
+                <!-- Inside Body -->
+                &lt;div id="graph3" style="display: inline-block; width: 100%; height: 50%"&gt; &lt;/div&gt;
+                &lt;div id="graph4" style="display: inline-block; width: 100%; height: 100%"&gt; &lt;/div&gt;
+            </code>
+        </pre>
+
+        <h5> JavaScript: </h5>
+        <pre>
+            <code>
+                let graph3Div = document.getElementById("graph3");
+                let graph3 = new GraphStruc(graph3Div, false);
+                for(let i = 0; i < 9; i++){
+                    graph3.createVertex(i, "50px", i, "white", true);
+                }
+
+                let graph4Div = document.getElementById("graph4");
+                let graph4 = new GraphStruc(graph4Div, false, 1);
+                for(let i = 0; i < 9; i++){
+                    graph4.createVertex(i, "50px", i, "white", true);
+                }
+
+            </code>
+        </pre>
     
-    
+        <h4 class="example-heading">Example 4</h4>
         <p>You can also position vertices wherever you want on the graph, and also choose the radius of the vertex </p>
         <div id="graph5" style="display: inline-block; width: 100%; height: 50%; border: 1px solid"> </div>
     
+        
+        <br>
+        <br>
+        <h5>HTML:</h5>
+        <pre>
+            <code>
+                <!-- Inside Body -->
+                &lt;div id="graph5" style="display: inline-block; width: 100%; height: 50%; border: 1px solid"&gt; &lt;/div&gt;
+
+            </code>
+        </pre>
+
+        <h5> JavaScript: </h5>
+        <pre>
+            <code>
+                let graph5Div = document.getElementById("graph5");
+                let graph5 = new GraphStruc(graph5Div, false, 3);
+                for(let i = 0; i < 9; i++){
+                    graph5.createVertex(i, "50px");
+                }
+                graph5.createVertex(10000, "50px", "", "green", false, ["10%", "20%"]);
+                graph5.createVertex(10001, "10%", "", "green", false, ["40%", "46%"]);
+                graph5.createVertex(10002, "3%", "", "green", false, ["85%", "70%"]);
+
+            </code>
+        </pre>
+
+        <h4 class="example-heading">Example 5</h4>
         <p> Edges are easy to add and will automatically detect intersections and adjust its curvature so hopefully it doesn't intersect with unintended vertices anymore. Note that this does not guarantee it doesn't intersect, since it may not always be possible, depending on absolutely positioned vertices </p>
         <div id="graph6" style="display: inline-block; width: 100%; height: 50%"> </div>
     
-        <p> Example: Subway Map</p>
+        <h5>HTML:</h5>
+        <pre>
+            <code>
+                <!-- Inside Body -->
+                &lt;div id="graph6" style="display: inline-block; width: 100%; height: 50%"&gt; &lt;/div&gt;
+
+            </code>
+        </pre>
+
+        <h5> JavaScript: </h5>
+        <pre>
+            <code>
+                let graph6Div = document.getElementById("graph6");
+                let graph6 = new GraphStruc(graph6Div, false, 3);
+                for(let i = 0; i < 9; i++){
+                    graph6.createVertex(i, "50px");
+                }
+                graph6.addEdge(0, 8);
+
+            </code>
+        </pre>
+
+        <h4 class="example-heading">Use Case: Subway Map</h4>
         <div id="graph7" style="display: inline-block; width: 90%; height: 90%"> </div>
+
+        <h5>HTML:</h5>
+        <pre>
+            <code>
+                <!-- Inside Body -->
+                &lt;div id="graph7" style="display: inline-block; width: 90%; height: 90%"&gt; &lt;/div&gt;
+
+            </code>
+        </pre>
+
+        <h5> JavaScript: </h5>
+        <pre>
+            <code>
+                let graph7Div = document.getElementById("graph7");
+                let graph7 = new GraphStruc(graph7Div, false, 9);
+                for(let i = 0; i < 9; i++){
+                    graph7.createVertex(i, "50px", "stop " + i, "yellow");
+                }
+
+                graph7.createVertex(10, "50px", "stop 9", "pink", false, ["45%", "30%"]);
+                graph7.createVertex(11, "50px", "stop 10", "lightblue", false, ["55%", "30%"]);
+                graph7.createVertex(12, "50px", "stop 11", "pink", false, ["35%", "20%"]);
+                graph7.createVertex(13, "50px", "stop 12", "lightblue", false, ["65%", "20%"]);
+                graph7.createVertex(14, "50px", "stop 13", "lightgreen", false, ["50%", "65%"]);
+                graph7.createVertex(15, "50px", "stop 14", "lightgreen", false, ["50%", "75%"]);
+                graph7.createVertex(16, "50px", "stop 15", "lightgreen", false, ["50%", "95%"]);
+
+                graph7.addEdge(0, 1);
+                graph7.addEdge(1, 2);
+                graph7.addEdge(2, 3);
+                graph7.addEdge(3, 4);
+                graph7.addEdge(4, 5);
+                graph7.addEdge(5, 6);
+                graph7.addEdge(6, 7);
+                graph7.addEdge(7, 8);
+
+                graph7.addEdge(12, 10);
+                graph7.addEdge(10, 4);
+
+                graph7.addEdge(11, 4);
+                graph7.addEdge(11, 13);
+
+                graph7.addEdge(4, 14);
+                graph7.addEdge(14, 15);
+                graph7.addEdge(15, 16);
+
+            </code>
+        </pre>
+
     </div>
     
     
