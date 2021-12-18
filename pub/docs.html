@@ -26,39 +26,45 @@
             <li><a href="examples.html">Examples</a></li>
             <li><a href="docs.html">Docs</a></li>
             <li><a href="download.html">Download</a></li>
+            <li class="logo"> <a href="index.html"> GraphStruc.js </a> </li>
         </ul>
     </nav>
-    <h1> GraphStruc.js </h1>
-    <h2> An easy, lightweight, javascript graph library</h2>
-    <p> A graph abstract data type is a network structure in computer science that consists of
-        vertices (or nodes) represented by circles, and lines or arrows connecting different vertices
-        called edges. Graphs are good for visualizing relationships between different objects. My library
-        will allow developers to create animated graph structures and integrate them into their web
-        apps easily. This will be very useful for developers, as coding a graph yourself would be tricky
-        and time-consuming, especially for a complex graph. My graph library is currently responsive and supports draggable vertices.</p>
+
+    <div class="content">
+        
+        <h1 class="title"> GraphStruc.js </h1>
+        <h2 class="title"> An easy, lightweight, javascript graph library</h2>
+        <p> A graph abstract data type is a network structure in computer science that consists of
+            vertices (or nodes) represented by circles, and lines or arrows connecting different vertices
+            called edges. Graphs are good for visualizing relationships between different objects. My library
+            will allow developers to create animated graph structures and integrate them into their web
+            apps easily. This will be very useful for developers, as coding a graph yourself would be tricky
+            and time-consuming, especially for a complex graph. My graph library is currently responsive and supports draggable vertices.</p>
+        
+        <div id="graph" style="display: inline-block; width: 100%; height: 50%"> </div>
+        <!-- If you're adding the graph directly to the body (eg. above ^), make sure you add html, body {height: 100%;} to your css -->
+        <div style="height: 50%;">
+            <div style="display:inline-block; width: 20%; height: 100%"> You can add graphs inline as well. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum ipsam voluptas dolores dolorum necessitatibus eum? Ratione architecto fugiat unde ipsa eum iste ducimus totam quo, neque qui odio ipsam quidem facere esse voluptatum veritatis tenetur dolor temporibus numquam voluptas. Nostrum repudiandae voluptatum velit aspernatur quisquam minima cupiditate maiores placeat possimus. </div>
+            <div id="graph2" style="display: inline-block; width: 75%; height: 100%; border: 1px solid"> </div>
+            <!-- Make sure the parent of this element ^ has a height. -->
     
-    <div id="graph" style="display: inline-block; width: 100%; height: 50%"> </div>
-    <!-- If you're adding the graph directly to the body (eg. above ^), make sure you add html, body {height: 100%;} to your css -->
-    <div style="height: 50%;">
-        <div style="display:inline-block; width: 20%; height: 100%"> You can add graphs inline as well. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum ipsam voluptas dolores dolorum necessitatibus eum? Ratione architecto fugiat unde ipsa eum iste ducimus totam quo, neque qui odio ipsam quidem facere esse voluptatum veritatis tenetur dolor temporibus numquam voluptas. Nostrum repudiandae voluptatum velit aspernatur quisquam minima cupiditate maiores placeat possimus. </div>
-        <div id="graph2" style="display: inline-block; width: 75%; height: 100%; border: 1px solid"> </div>
-        <!-- Make sure the parent of this element ^ has a height. -->
-
+        </div>
+    
+        <p style="margin-top: 100px;"> Using default positioning makes it easy to create nodes in a row, column (shown below), or grid (shown above). You can also drag vertices. Try dragging any of the vertices from the two graphs below</p>
+        <div id="graph3" style="display: inline-block; width: 100%; height: 50%"> </div>
+        <div id="graph4" style="display: inline-block; width: 100%; height: 100%"> </div>
+    
+    
+        <p>You can also position vertices wherever you want on the graph, and also choose the radius of the vertex </p>
+        <div id="graph5" style="display: inline-block; width: 100%; height: 50%; border: 1px solid"> </div>
+    
+        <p> Edges are easy to add and will automatically detect intersections and adjust its curvature so hopefully it doesn't intersect with unintended vertices anymore. Note that this does not guarantee it doesn't intersect, since it may not always be possible, depending on absolutely positioned vertices </p>
+        <div id="graph6" style="display: inline-block; width: 100%; height: 50%"> </div>
+    
+        <p> Example: Subway Map</p>
+        <div id="graph7" style="display: inline-block; width: 90%; height: 90%"> </div>
     </div>
-
-    <p style="margin-top: 100px;"> Using default positioning makes it easy to create nodes in a row, column (shown below), or grid (shown above). You can also drag vertices. Try dragging any of the vertices from the two graphs below</p>
-    <div id="graph3" style="display: inline-block; width: 100%; height: 50%"> </div>
-    <div id="graph4" style="display: inline-block; width: 100%; height: 100%"> </div>
-
-
-    <p>You can also position vertices wherever you want on the graph, and also choose the radius of the vertex </p>
-    <div id="graph5" style="display: inline-block; width: 100%; height: 50%; border: 1px solid"> </div>
-
-    <p> Edges are easy to add and will automatically detect intersections and adjust its curvature so hopefully it doesn't intersect with unintended vertices anymore. Note that this does not guarantee it doesn't intersect, since it may not always be possible, depending on absolutely positioned vertices </p>
-    <div id="graph6" style="display: inline-block; width: 100%; height: 50%"> </div>
-
-    <p> Example: Subway Map</p>
-    <div id="graph7" style="display: inline-block; width: 90%; height: 90%"> </div>
+    
     
    
 </body>
