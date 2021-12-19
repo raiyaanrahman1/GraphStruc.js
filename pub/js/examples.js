@@ -159,8 +159,8 @@ graph9.createVertex(4, "100px", "Brainstorm", "pink", false, ["10%", "15%"]);
 graph9.createVertex(5, "100px", "Market Research", "pink", false, ["25%", "15%"]);
 graph9.createVertex(6, "100px", "R&D", "pink", false, ["40%", "15%"]);
 
-graph9.createVertex(7, "100px", "R&D", "#aa4ce0", false, ["32%", "85%"]);
-graph9.createVertex(8, "100px", "Material Extraction", "#aa4ce0", false, ["52%", "85%"]);
+graph9.createVertex(7, "100px", "Material Extraction", "#aa4ce0", false, ["32%", "85%"]);
+graph9.createVertex(8, "100px", "Manufacturing", "#aa4ce0", false, ["52%", "85%"]);
 graph9.createVertex(9, "100px", "Assembly", "#aa4ce0", false, ["72%", "85%"]);
 
 graph9.createVertex(10, "100px", "Launch", "#4ce0c5", false, ["62%", "15%"]);
