@@ -57,6 +57,18 @@
         </ol>
         
         <h2> API </h2>
+        <p> 
+            If you want to specify optional parameters in a different order than the order given in the function signature, just pass undefined for any optional parameter you don't want to specify
+            <br>
+            <br>
+            For example, for the constructor, if you want to specify <code>maxNodesPerRow</code> but not <code>directed</code>, do this: <code>new GraphStruct(myKey, undefined, 3)</code>
+
+            <br>
+            <br>
+            But for example, if you want to specify <code>innerHTML</code> and <code>backgroundColor</code> in <code>createVertex()</code>, but not <code>draggable</code> and <code>position</code>, you can leave those values blank:
+            <br>
+            <code>graph.createVertex(myKey, myDiameter, myhtml, mybgcolor)</code>
+        </p>
         <table class="api-table">
             <tr>
                 <th>Method</th>
@@ -112,8 +124,8 @@
                         </li>
 
                         <li>
-                            <i>maxNodesPerRow</i> (optional): For default positioning, how many nodes should be in each row of the graph? <code>Infinity</code> by default if unspecified
-                            (unlimited nodes in a single row). For unlimited nodes per row, pass <code>Infinity</code>.
+                            <i>maxNodesPerRow</i> (optional): For default positioning, how many nodes can be in each row of the graph? <code>Infinity</code> by default if unspecified
+                            (unlimited nodes in a single row).
                         </li>
                     </ul>
                     
@@ -198,6 +210,41 @@
 
                 <td>
                     No Parameters
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <code> removeVertex(key: any): void</code>
+                    <br>
+                    <br>
+                    Description: Remove the vertex with key of <i>key</i>. Throws an error if it couldn't find the specified key.
+                    <br>
+                    <br>
+                    Return Value: void
+                </td>
+                <td>
+                    <ul>
+                        <li> <i>key</i> (required): The key of the vertex to remove </li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <code> removeEdge(key1: any, key2: any): void</code>
+                    <br>
+                    <br>
+                    Description: Remove the edge from vertex with key of <i>key1</i> to vertex with key of <i>key2</i>. If the graph is undirected the order doesn't matter. Throws an error if it couldn't find the specified keys.
+                    <br>
+                    <br>
+                    Return Value: void
+                </td>
+                <td>
+                    <ul>
+                        <li> <i>key1</i> (required): The key of the vertex from which the edge leaves </li>
+                        <li> <i>key2</i> (required): The key of the vertex of which the edge enters </li>
+                    </ul>
                 </td>
             </tr>
 

@@ -118,3 +118,32 @@ document.getElementById("changeDirectedness").addEventListener("click", (e)=> {
     e.preventDefault();
     graph.changeDirectedness();
 })
+
+document.getElementById("removeEdgeForm").addEventListener("submit", (e)=>{
+    e.preventDefault();
+
+    let key1 = document.getElementById("removeEdgeKey1").value;
+    let key2 = document.getElementById("removeEdgeKey2").value;
+
+    try {
+        graph.removeEdge(key1, key2);
+        document.getElementById("removeEdgeError").innerHTML = "";
+    }
+    catch(err) {
+        document.getElementById("removeEdgeError").innerHTML = err;
+    }
+});
+
+document.getElementById("removeVertexForm").addEventListener("submit", (e)=>{
+    e.preventDefault();
+
+    let key = document.getElementById("removeVertexKey").value;
+
+    try {
+        graph.removeVertex(key);
+        document.getElementById("removeVertexError").innerHTML = "";
+    }
+    catch(err) {
+        document.getElementById("removeVertexError").innerHTML = err;
+    }
+});

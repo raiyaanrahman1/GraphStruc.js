@@ -277,6 +277,82 @@ const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
 
         }
 
+        removeVertex(key){
+            if (key === undefined) {
+                throw new TypeError("Undefined Key");
+            }
+            key = String(key);
+            let vert;
+            for (let vertex of this.#vertices) {
+                if (vertex.key === key) {
+                    vert = vertex;
+                    break;
+                }
+            }
+            if(vert === undefined){
+                throw new TypeError("Couldn't find the vertex with the specified key");
+            }
+
+            if (vert.isDefault) {
+                this.#numDefaultVert--;
+            }
+
+            let edgesToRemove = [];
+            for(let edge of this.#edges){
+                if(edge.v1.key === key || edge.v2.key === key){
+                    edge.elem.remove();
+                    edge.v1.adjList.splice(edge.v1.adjList.indexOf(edge.v2), 1);
+                    if(!this.#directed){
+                        edge.v2.adjList.splice(edge.v2.adjList.indexOf(edge.v1), 1);
+                    }
+                    else {
+                        edge.arrowElems[0].remove();
+                        edge.arrowElems[1].remove();
+                    }
+                    edgesToRemove.push(edge);
+                }
+            }
+
+            for(let edge of edgesToRemove){
+                this.#edges.splice(this.#edges.indexOf(edge), 1);
+            }
+
+            vert.vertexElem.remove();
+            this.#vertices.splice(this.#vertices.indexOf(vert), 1);
+        }
+
+        removeEdge(key1, key2) {
+            if (key1 === undefined || key2 === undefined) {
+                throw new TypeError("Undefined Key");
+            }
+            key1 = String(key1);
+            key2 = String(key2);
+            let ed;
+            for(let edge of this.#edges){
+                if(key1 === edge.v1.key && key2 === edge.v2.key || (!this.#directed && key1 === edge.v2.key && key2 === edge.v1.key)) {
+                    ed = edge;
+                    break;
+                }
+            }
+            if(ed === undefined){
+                throw new TypeError("Couldn't find the specified edge");
+            }
+            ed.elem.remove();
+            ed.v1.adjList.splice(ed.v1.adjList.indexOf(ed.v2), 1);
+            if(!this.#directed){
+                ed.v2.adjList.splice(ed.v2.adjList.indexOf(ed.v1), 1);
+            }
+            else {
+                ed.arrowElems[0].remove();
+                ed.arrowElems[1].remove();
+            }
+
+            this.#edges.splice(this.#edges.indexOf(ed), 1);
+
+        }
+
+        
+
         addEdge(key1, key2) {
             if (key1 === undefined || key2 === undefined) {
                 throw new TypeError("Undefined Key");

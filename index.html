@@ -70,6 +70,7 @@
         <br>
         <form action="" id="addVertexForm" style="display: inline-block; width: 40%">
             <h4>Add Vertex:</h4>
+            <p>Leve position blank to use default positioning</p>
             <div style="display: inline-block; width: 30%">
                 Key:
                 <br>
@@ -142,6 +143,43 @@
             <input type="submit" value="Animate">
 
             <p id="animatePathError" style="color:red"></p>
+            
+        </form>
+
+        <form action="" id="removeEdgeForm" style="display: inline-block; vertical-align: top; width: 10%">
+            <h4>Remove Edge:</h4>
+            <div style="display: inline-block">
+                Key 1:
+                <br>
+                Key 2:
+            </div>
+            
+            <div style="display: inline-block; width: 40%">
+                <input style="width: 100%" type="text" id="removeEdgeKey1" name="key1" value="0" required>
+                <br>
+                <input style="width: 100%" type="text" id="removeEdgeKey2" name="key2" value="8" required>
+                
+            </div>
+            <br>
+            <input type="submit" value="Remove">
+
+            <p id="removeEdgeError" style="color:red"></p>
+            
+        </form>
+
+        <form action="" id="removeVertexForm" style="display: inline-block; vertical-align: top; width: 10%">
+            <h4>Remove Vertex:</h4>
+            <div style="display: inline-block">
+                Key:
+            </div>
+            
+            <div style="display: inline-block; width: 40%">
+                <input style="width: 100%" type="text" id="removeVertexKey" name="key" value="0" required>
+            </div>
+            <br>
+            <input type="submit" value="Remove">
+
+            <p id="removeVertexError" style="color:red"></p>
             
         </form>
         
