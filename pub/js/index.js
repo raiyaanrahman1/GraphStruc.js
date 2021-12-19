@@ -112,4 +112,9 @@ document.getElementById("animatePathForm").addEventListener("submit", (e)=>{
         document.getElementById("animatePathError").innerHTML = err;
     }
 
+});
+
+document.getElementById("changeDirectedness").addEventListener("click", (e)=> {
+    e.preventDefault();
+    graph.changeDirectedness();
 })

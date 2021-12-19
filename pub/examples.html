@@ -48,7 +48,7 @@
         <h5>HTML:</h5>
         <pre>
             <code>
-                <!-- Inside Body -->
+                &lt;!-- Inside Body -- &gt;
                 &lt;div id="graph" style="width: 100%; height: 50%"&gt; &lt;/div&gt;
             </code>
         </pre>
@@ -89,7 +89,7 @@
         <h5>HTML:</h5>
         <pre>
             <code>
-                <!-- Inside Body -->
+                &lt;!-- Inside Body -- &gt;
                 &lt;div style="height: 50%;"&gt;
                     &lt;div style="display:inline-block; vertical-align:top; margin-top:40px; margin-right: 20px; width: 20%; height: 100%"&gt; Lorem ipsum dolor... &lt;/div&gt;
                     &lt;div id="graph2" style="display: inline-block; width: 75%; height: 100%; border: 1px solid"&gt; &lt;/div&gt;
@@ -123,7 +123,7 @@
         <h5>HTML:</h5>
         <pre>
             <code>
-                <!-- Inside Body -->
+                &lt;!-- Inside Body -- &gt;
                 &lt;div id="graph3" style="display: inline-block; width: 100%; height: 50%"&gt; &lt;/div&gt;
                 &lt;div id="graph4" style="display: inline-block; width: 100%; height: 100%"&gt; &lt;/div&gt;
             </code>
@@ -157,7 +157,7 @@
         <h5>HTML:</h5>
         <pre>
             <code>
-                <!-- Inside Body -->
+                &lt;!-- Inside Body -- &gt;
                 &lt;div id="graph5" style="display: inline-block; width: 100%; height: 50%; border: 1px solid"&gt; &lt;/div&gt;
 
             </code>
@@ -185,7 +185,7 @@
         <h5>HTML:</h5>
         <pre>
             <code>
-                <!-- Inside Body -->
+                &lt;!-- Inside Body -- &gt;
                 &lt;div id="graph6" style="display: inline-block; width: 100%; height: 50%"&gt; &lt;/div&gt;
 
             </code>
@@ -205,12 +205,13 @@
         </pre>
 
         <h4 class="example-heading">Use Case: Subway Map</h4>
+        <p> Colours represent different subway lines </p>
         <div id="graph7" style="display: inline-block; width: 90%; height: 90%"> </div>
 
         <h5>HTML:</h5>
         <pre>
             <code>
-                <!-- Inside Body -->
+                &lt;!-- Inside Body -- &gt;
                 &lt;div id="graph7" style="display: inline-block; width: 90%; height: 90%"&gt; &lt;/div&gt;
 
             </code>
@@ -255,6 +256,66 @@
             </code>
         </pre>
 
+        <h4 class="example-heading">Use Case: Social Network Friends</h4>
+        <p>Blue = level 1 Friend, Pink = level 2 friend. Animating paths from you to level 2 friends</p>
+
+        <div id="graph8" style="display: inline-block; width: 90%; height: 90%"> </div>
+
+        <h5>HTML:</h5>
+        <pre>
+            <code>
+                &lt;!-- Inside Body -- &gt;
+                &lt;div id="graph8" style="display: inline-block; width: 90%; height: 90%"&gt; &lt;/div&gt;
+
+            </code>
+        </pre>
+
+        <h5> JavaScript: </h5>
+        <pre>
+            <code>
+                let graph8Div = document.getElementById("graph8");
+                let graph8 = new GraphStruc(graph8Div, false, 3);
+
+                graph8.createVertex(0, "60px", "Bob", "lightblue");
+                graph8.createVertex(1, "60px", "You", "white");
+                graph8.createVertex(2, "60px", "Jill", "lightblue");
+
+                graph8.createVertex(3, "60px", "Syed", "lightblue", false, ["42%", "30%"]);
+                graph8.createVertex(4, "60px", "Alyssa", "lightblue", false, ["58%", "30%"]);
+                graph8.createVertex(5, "60px", "Fatima", "lightblue", false, ["58%", "70%"]);
+                graph8.createVertex(6, "60px", "Andy", "lightblue", false, ["42%", "70%"]);
+
+                graph8.createVertex(7, "60px", "Karim", "pink", false, ["22%", "80%"]);
+                graph8.createVertex(8, "60px", "Juan", "pink", false, ["82%", "80%"]);
+                graph8.createVertex(9, "60px", "Josh", "pink", false, ["22%", "10%"]);
+                graph8.createVertex(10, "60px", "Rachel", "pink", false, ["82%", "10%"]);
+
+                graph8.addEdge(1, 0);
+                graph8.addEdge(1, 2);
+                graph8.addEdge(1, 3);
+                graph8.addEdge(1, 4);
+                graph8.addEdge(1, 5);
+                graph8.addEdge(1, 6);
+
+                graph8.addEdge(3, 0);
+                graph8.addEdge(0, 9);
+                graph8.addEdge(6, 2);
+                graph8.addEdge(6, 7);
+
+                graph8.addEdge(2, 10);
+                graph8.addEdge(2, 8);
+
+                graph8.animatePath(1, 9);
+                graph8.animatePath(1, 7);
+                graph8.animatePath(1, 8);
+                graph8.animatePath(1, 10);
+
+            </code>
+        </pre>
+
+        <h4 class="example-heading">Use Case: Business Product Launch Strategy </h4>
+
+        <div id="graph9" style="display: inline-block; width: 90%; height: 90%"> </div>
     </div>
     
     

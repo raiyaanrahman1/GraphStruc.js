@@ -39,12 +39,24 @@
         
         <h1 class="title"> GraphStruc.js </h1>
         <h2 class="title"> An easy, lightweight, javascript graph library</h2>
-        <p> A graph abstract data type is a network structure in computer science that consists of
+        <h2 class="title"> Made by Raiyaan Rahman </h2>
+
+        <p class="description"> A graph abstract data type is a network structure in computer science that consists of
             vertices (or nodes) represented by circles, and lines or arrows connecting different vertices
             called edges. Graphs are good for visualizing relationships between different objects. My library
-            will allow developers to create animated graph structures and integrate them into their web
+            will allow developers to create animated, directed (edges are unidirectional) or undirected (edges are bidriectional) 
+            graph structures and integrate them into their web
             apps easily. This will be very useful for developers, as coding a graph yourself would be tricky
-            and time-consuming, especially for a complex graph. My graph library is currently responsive and supports draggable vertices.
+            and time-consuming, especially for a complex graph.
+            
+            <br>
+            <br>
+            What makes my library unique is that you can add vertices without specifying a position on the graph and the vertex will automatically be added to 
+            a sensible position. Additionally, my library automatically detects if an edge will cause an intersection with an unintended vertex, and curve the
+            edge to reduce the likelihood of an intersection. It does not guarantee that the edge will not intersect, due to absolutely positioned vertexes.
+            Also, developers can animate a particular path in the graph easily, and they can customize features of vertices like their diameter, colour, and content inside,
+            which can be any HTML. Finally, the user interaction to reposition vertices by dragging them is built into the library, and developers can easily give users
+            more freedom and flexibility by giving them access to the libraries methods through the use of forms, as shown in the playground demonstration below.
         </p>
         
         <h3>Playground:</h3>
@@ -52,6 +64,10 @@
 
         <div id="graph" style="display: inline-block; width: 100%; height: 50%; border: 1px solid; margin-bottom: 20px"> </div>
 
+
+        <button id="changeDirectedness">Change Directedness </button>
+        <br>
+        <br>
         <form action="" id="addVertexForm" style="display: inline-block; width: 40%">
             <h4>Add Vertex:</h4>
             <div style="display: inline-block; width: 30%">
@@ -95,7 +111,7 @@
                 Key 2:
             </div>
             
-            <div style="display: inline-block; width: 10%">
+            <div style="display: inline-block; width: 40%">
                 <input style="width: 100%" type="text" id="addEdgeKey1" name="key1" value="0" required>
                 <br>
                 <input style="width: 100%" type="text" id="addEdgeKey2" name="key2" value="1" required>
@@ -116,7 +132,7 @@
                 Key 2:
             </div>
             
-            <div style="display: inline-block; width: 10%">
+            <div style="display: inline-block; width: 40%">
                 <input style="width: 100%" type="text" id="animatePathKey1" name="key1" value="3" required>
                 <br>
                 <input style="width: 100%" type="text" id="animatePathKey2" name="key2" value="5" required>

@@ -344,6 +344,39 @@ const UNIT_REGEX = /((px)|(%)|(cm)|(mm)|(in)|(pt)|(pc)|(em)|(rem)|(vw)|(vh))/;
 
         }
 
+        changeDirectedness() {
+            if(this.#directed){
+                this.#directed = false;
+                for(let edge of this.#edges){
+                    edge.v2.adjList.push(edge.v1);
+                    edge.arrowElems[0].remove();
+                    edge.arrowElems[1].remove();
+                    edge.arrowElems = [];
+                    edge.directed = false;
+                }
+                
+            }
+            else {
+                this.#directed = true;
+                for(let edge of this.#edges){
+                    edge.v2.adjList.splice(edge.v2.adjList.indexOf(edge.v1), 1);
+                    edge.directed = true;
+                    if(edge.straightEdge){
+                        let lines = this.#getEdgeElem(edge);
+                        edge.arrowElems.push(lines[1], lines[2]);
+                        this.#edgesContainer.append(lines[1], lines[2]);
+                    }
+                    else {
+                        let intersection = this.#detectIntersectionLine(edge);
+                        let curves = this.#getCurvedEdge(edge, intersection[1], intersection[2], intersection[3], intersection[4], intersection[5]);
+                        edge.arrowElems.push(curves[1], curves[2]);
+                        this.#edgesContainer.append(curves[1], curves[2]);
+
+                    }
+                }
+            }
+        }
+
         // private helper
         #getEdgeElem(edge) {
             let lines = []

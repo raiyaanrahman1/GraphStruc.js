@@ -110,3 +110,75 @@ graph7.addEdge(11, 13);
 graph7.addEdge(4, 14);
 graph7.addEdge(14, 15);
 graph7.addEdge(15, 16);
+
+let graph8Div = document.getElementById("graph8");
+let graph8 = new GraphStruc(graph8Div, false, 3);
+
+graph8.createVertex(0, "60px", "Bob", "lightblue");
+graph8.createVertex(1, "60px", "You", "white");
+graph8.createVertex(2, "60px", "Jill", "lightblue");
+
+graph8.createVertex(3, "60px", "Syed", "lightblue", false, ["42%", "30%"]);
+graph8.createVertex(4, "60px", "Alyssa", "lightblue", false, ["58%", "30%"]);
+graph8.createVertex(5, "60px", "Fatima", "lightblue", false, ["58%", "70%"]);
+graph8.createVertex(6, "60px", "Andy", "lightblue", false, ["42%", "70%"]);
+
+graph8.createVertex(7, "60px", "Karim", "pink", false, ["22%", "80%"]);
+graph8.createVertex(8, "60px", "Juan", "pink", false, ["82%", "80%"]);
+graph8.createVertex(9, "60px", "Josh", "pink", false, ["22%", "10%"]);
+graph8.createVertex(10, "60px", "Rachel", "pink", false, ["82%", "10%"]);
+
+graph8.addEdge(1, 0);
+graph8.addEdge(1, 2);
+graph8.addEdge(1, 3);
+graph8.addEdge(1, 4);
+graph8.addEdge(1, 5);
+graph8.addEdge(1, 6);
+
+graph8.addEdge(3, 0);
+graph8.addEdge(0, 9);
+graph8.addEdge(6, 2);
+graph8.addEdge(6, 7);
+
+graph8.addEdge(2, 10);
+graph8.addEdge(2, 8);
+
+graph8.animatePath(1, 9);
+graph8.animatePath(1, 7);
+graph8.animatePath(1, 8);
+graph8.animatePath(1, 10);
+
+let graph9Div = document.getElementById("graph9");
+let graph9 = new GraphStruc(graph9Div, true);
+
+for(let i = 1; i < 4; i++){
+    graph9.createVertex(i, "150px", "Stage " + i, "lightblue");
+}
+
+graph9.createVertex(4, "100px", "Brainstorm", "pink", false, ["10%", "15%"]);
+graph9.createVertex(5, "100px", "Market Research", "pink", false, ["25%", "15%"]);
+graph9.createVertex(6, "100px", "R&D", "pink", false, ["40%", "15%"]);
+
+graph9.createVertex(7, "100px", "R&D", "#aa4ce0", false, ["32%", "85%"]);
+graph9.createVertex(8, "100px", "Material Extraction", "#aa4ce0", false, ["52%", "85%"]);
+graph9.createVertex(9, "100px", "Assembly", "#aa4ce0", false, ["72%", "85%"]);
+
+graph9.createVertex(10, "100px", "Launch", "#4ce0c5", false, ["62%", "15%"]);
+graph9.createVertex(11, "100px", "Marketing", "#4ce0c5", false, ["77%", "15%"]);
+graph9.createVertex(12, "100px", "Shipping", "#4ce0c5", false, ["92%", "15%"]);
+
+graph9.addEdge(1, 4);
+graph9.addEdge(4, 5);
+graph9.addEdge(5, 6);
+graph9.addEdge(6, 2);
+graph9.addEdge(2, 7);
+graph9.addEdge(7, 8);
+graph9.addEdge(8, 9);
+graph9.addEdge(9, 3);
+graph9.addEdge(3, 10);
+graph9.addEdge(10, 11);
+graph9.addEdge(11, 12);
+
+graph9.animatePath(1, 12);
+
+
