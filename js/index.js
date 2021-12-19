@@ -63,18 +63,19 @@ document.getElementById("addVertexForm").addEventListener("submit", (e) => {
         bgcolour = `rgb(${red}, ${green}, ${blue})`
     }
 
-    if(isNaN(xPos) || isNaN(yPos)){
+    if(isNaN(xPos) || isNaN(yPos) || xPos === "" || yPos === ""){
         position = undefined;
     }
     else {
         xPos += "%";
         yPos += "%";
+        position = [xPos, yPos];
     }
 
     diameter += "%";
 
     try {
-        graph.createVertex(key, diameter, innerHTML, bgcolour, draggable);
+        graph.createVertex(key, diameter, innerHTML, bgcolour, draggable, position);
         document.getElementById("addVertexError").innerHTML = "";
     }
     catch(err) {
