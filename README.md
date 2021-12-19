@@ -1,6 +1,7 @@
 # js-library-rahma694
 
-link to heroku app: https://murmuring-harbor-20623.herokuapp.com
+Link to Landing Page: https://murmuring-harbor-20623.herokuapp.com
+Link to Documentaion page: https://murmuring-harbor-20623.herokuapp.com/docs.html
 
 <h2> Getting Started </h2>
         <p> No dependencies are needed for this library </p>
