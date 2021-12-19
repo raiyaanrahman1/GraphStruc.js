@@ -5,7 +5,7 @@ link to heroku app: https://murmuring-harbor-20623.herokuapp.com
 <h2> Getting Started </h2>
         <p> No dependencies are needed for this library </p>
         <ol class="getting-started"> 
-            <li>Download the script <a href="/js/graphStruc.js" download> here </a></li>
+            <li> Navigate to https://murmuring-harbor-20623.herokuapp.com/download.html and click the link to download the script </a></li>
             <li>Copy it to your working directory (ie. your project folder - it can be in the same folder as your html file such as index.html, or in a separate folder. Just make sure to refer to the correct location in step 3)</li>
             <li>Add the following line of code in your html before <i>your</i>  script tag (ie. the JS for your html, where you will use the library): : <br> <code>&lt;script defer type="text/javascript" src="&lt;path/to/graphStruc.js&gt;"&gt;&lt;/script&gt;</code> <br> and replace &lt;path/to/graphStruc.js&gt; with the path to the file you just downloaded. This will just be "graphStruc.js" if your html and graphStruc file are in the same folder</li>
             <li>Add the <code>defer</code> attribute to <i>your</i> script tag (the JS for your html, where you will use the library)</li>
